@@ -57,7 +57,7 @@ python -m unittest discover src
 ```
 
 ## Contribution
-See CONTRIBUTION.md
+See [CONTRIBUTION](CONTRIBUTION)
 
 ## Licence
-See [LICENCE.md](LICENCE.md)
+See [LICENSE](LICENSE)
