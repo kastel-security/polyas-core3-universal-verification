@@ -1,0 +1,11 @@
+Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel, CHristoph Niederbudde
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+
+-----
+
+The above license excepts the content of [TonelliShanks.py](src/algos/TonelliShanks.py) which is taken from [https://rosettacode.org/wiki/Tonelli-Shanks_algorithm#Python](https://rosettacode.org/wiki/Tonelli-Shanks_algorithm#Python) and is available under GNU Free Documentation License 1.2 unless otherwise noted. No changes were made to this part of the code.

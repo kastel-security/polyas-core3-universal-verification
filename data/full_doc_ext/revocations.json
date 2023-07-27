@@ -1,0 +1,21 @@
+[{
+    "electionId" : "election-id",
+    "voterIds" : [
+    "voter1",
+    "voter2"
+    ]
+    },
+    {
+    "electionId" : "election-id",
+    "voterIds" : [
+    "voter7"
+    ]
+    },
+    {
+        "electionId": "XA78",
+        "voterIds": [
+            "voter501",
+            "voter809"
+        ]
+    }
+]

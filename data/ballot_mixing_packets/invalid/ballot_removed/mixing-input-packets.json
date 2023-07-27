@@ -1,0 +1,31 @@
+[
+    {
+    "publicLabel" : "0",
+    "ciphertexts" : [
+    {
+    "ciphertexts" : [
+    {
+    "x" : "02edadde06f6d30cfb2a28aa7bcdc5dde2f98ca64786e15f0a27c093757e8c7877",
+    "y" : "037c75d47c0cfbc9711b31b0ffc1fa8283171f0e66867c157601aac763b4415c78"
+    }
+    ]
+    },
+    {
+    "ciphertexts" : [
+    {
+    "x" : "03bca321dbc6476125a9d928ccf4e42513f8d47e54ad41db296282c3f292a9abcd",
+    "y" : "031022f5c37fd7393da0fc23c499935d16b3c088737eed064ea4d4e8f38d9fc525"
+    }
+    ]
+    },
+    {
+    "ciphertexts" : [
+    {
+    "x" : "03e4de6daf5bcf22bb5cc94a7726c6b1559b910317d90e014a544bbdce2c16224f",
+    "y" : "0258dcaab12ec2f2b98070e4f2309a1fb8c7c9af526021a749e352849d38890903"
+    }
+    ]
+    }
+    ]
+}
+]

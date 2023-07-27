@@ -1,0 +1,17 @@
+image: continuumio/miniconda3:latest
+
+before_script:
+  - apt-get -qq update
+
+testbuild :
+  stage: build
+  only:
+    - master
+  script:
+    - conda config --append channels conda-forge
+    - apt-get update -q -y
+    - apt-get install -y build-essential
+    - apt-get install -y libgmp3-dev
+    - conda env create -f environment.yml
+    - source activate verificationtool
+    - python -m unittest discover src

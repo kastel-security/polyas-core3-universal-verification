@@ -1,0 +1,104 @@
+{
+    "packetSize" : 400,
+    "electionId" : "election-id",
+    "desc" : "Test registry (1675791826478)",
+    "ballotStructures" : [
+        {
+            "type" : "STANDARD_BALLOT",
+            "id" : "0",
+            "title" : {
+                "default" : "ballot 0",
+                "value" : {"deutsch": "Stimmzettel 0", "english": "Ballot 0"}
+            },
+            "lists" : [
+                {
+                    "id" : "0-0",
+                    "title" : {
+                        "default" : "List 0",
+                        "value" : {"deutsch": "Liste 0", "english": "List 0"}
+                    },
+                    "columnHeaders" : [
+                        {
+                            "default" : "List 0",
+                            "value" : {"deutsch": "Liste 0", "english": "List 0"}
+                        }
+                    ],
+                    "candidates" : [
+                        {
+                            "id" : "0-0-0",
+                            "columns" : [ ],
+                            "maxVotes" : 1,
+                            "minVotes" : 0
+                        },
+                        {
+                            "id" : "0-0-1",
+                            "columns" : [ ],
+                            "maxVotes" : 1,
+                            "minVotes" : 0
+                        }
+                    ],
+                    "maxVotesOnList" : 999,
+                    "minVotesOnList" : 0,
+                    "maxVotesForList" : 999,
+                    "minVotesForList" : 0,
+                    "voteCandidateXorList" : false,
+                    "countCandidateVotesAsListVotes" : false
+                }
+            ],
+            "showInvalidOption" : true,
+            "showAbstainOption" : false,
+            "maxVotes" : 999,
+            "minVotes" : 0,
+            "prohibitMoreVotes" : true,
+            "prohibitLessVotes" : true,
+            "calculateAvailableVotes" : false
+        }
+    ],
+    "voters" : [
+        {
+            "id" : "voter0",
+            "publicLabel" : "0",
+            "cred" : "0273a5e6f3549333e2c44856d786274d6037ae9911a7d72691a99265206bcaee52"
+        },
+        {
+            "id" : "voter1",
+            "publicLabel" : "0",
+            "cred" : "02ed1a313178622e03dd1e339c568108a9be9059199dd3dca5870e10bd02392c55"
+        },
+        {
+            "id" : "voter2",
+            "publicLabel" : "0",
+            "cred" : "03b36cfc60f1fa86a5826bb5377fe6ec123045df33652516101ae803cca57b4276"
+        },
+        {
+            "id" : "voter3",
+            "publicLabel" : "0",
+            "cred" : "0266d3e8fb40919e8d426191ccac34439a0387cbc0199b3f09f6e1b4e8f93cc3ed"
+        },
+        {
+            "id" : "voter4",
+            "publicLabel" : "0",
+            "cred" : "02ad64f815e369e50200fbf1573c8f0641b8406eeb7c2309f2ec5ce06c0351c6ac"
+        },
+        {
+            "id" : "voter5",
+            "publicLabel" : "0",
+            "cred" : "028c9813a2a5bc33062005875bc12b410f9485f4224d7ca99d5d7f47b80b5dc713"
+        },
+        {
+            "id" : "voter6",
+            "publicLabel" : "0",
+            "cred" : "029488096090843c9eb906d7676c26ee0f71a982fc194347fb35c37329667ac405"
+        },
+        {
+            "id" : "voter7",
+            "publicLabel" : "0",
+            "cred" : "0301c99a59f0771d6551336e7b585d9394e687c2c9b454a5f018200799c691286f"
+        }
+    ],
+    "revocationPolicy" : {
+        "verificationKeys" : [ ],
+        "threshold" : 0
+    },
+    "ballotSigningKey" : "30820122300d06092a864886f70d01010105000382010f003082010a0282010100883474dfb66b3b466636932bdd9c4edbd5052860009e87e55"
+}

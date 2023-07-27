@@ -1,0 +1,15 @@
+name: verificationtool
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - numpy
+  - pip
+  - pycryptodome
+  - pip:
+    - gmpy2
+    - pyqt5
+    - python-gnupg
+    - PyPDF2
+    - argparse
+

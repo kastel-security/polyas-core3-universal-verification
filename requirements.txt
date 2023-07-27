@@ -1,0 +1,8 @@
+numpy
+pycryptodome
+gmpy2
+pyqt5
+python-gnupg
+PyPDF2
+argparse
+

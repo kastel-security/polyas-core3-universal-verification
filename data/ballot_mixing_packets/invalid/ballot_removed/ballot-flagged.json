@@ -1,0 +1,122 @@
+[
+{
+    "values" : [
+    {
+    "ballot" : {
+    "publicLabel" : "0",
+    "voterID" : "voter0",
+    "ballot" : {
+    "encryptedChoice" : {
+    "ciphertexts" : [
+    {
+    "x" : "02edadde06f6d30cfb2a28aa7bcdc5dde2f98ca64786e15f0a27c093757e8c7877",
+    "y" : "037c75d47c0cfbc9711b31b0ffc1fa8283171f0e66867c157601aac763b4415c78"
+    }
+    ]
+    },
+    "proofOfKnowledgeOfEncryptionCoins" : [
+    {
+    "c" : "97255084107400874063012312510322434405646543723663024327766090325722712743990",
+    "f" : "79618466206519809503386998270391850782450685140150425953702141493257913945817"
+    }
+    ],
+    "proofOfKnowledgeOfPrivateCredential" : {
+    "c" : "92519493996696283520693291798632129025152693072908204008204171149794488335887",
+    "f" : "16764671072449848913004548251119104620114869173093933157709112175527935787608"
+    }
+    },
+    "publicCredential" : "0273a5e6f3549333e2c44856d786274d6037ae9911a7d72691a99265206bcaee52"
+    },
+    "status" : "OK",
+    "annotation" : ""
+    },
+    {
+    "ballot" : {
+    "publicLabel" : "0",
+    "voterID" : "voter2",
+    "ballot" : {
+    "encryptedChoice" : {
+    "ciphertexts" : [
+    {
+    "x" : "0279c720104d3bea32bac9c97edd853cd90dce260a88dc0c4ff1fd7d057e2e7fb3",
+    "y" : "03ddee3f9e4fe7bed300a53d6e8a7225594f4278ac5c184a473c15d49fe900170c"
+    }
+    ]
+    },
+    "proofOfKnowledgeOfEncryptionCoins" : [
+    {
+    "c" : "91434470469899726659068037540045192749541389647514015967012302308327391391989",
+    "f" : "53073528464670454814191906540656878845499367139779946546921260913626446250319"
+    }
+    ],
+    "proofOfKnowledgeOfPrivateCredential" : {
+    "c" : "56991543894786203229125649225586524669743954610560356884995778634883051778403",
+    "f" : "4926197597602051304538700148122660300477644983157748299388744697076409123475"
+    }
+    },
+    "publicCredential" : "03b36cfc60f1fa86a5826bb5377fe6ec123045df33652516101ae803cca57b4276"
+    },
+    "status" : "OK",
+    "annotation" : "The voter voter2 has been revoked."
+    },
+    {
+    "ballot" : {
+    "publicLabel" : "0",
+    "voterID" : "voter4",
+    "ballot" : {
+    "encryptedChoice" : {
+    "ciphertexts" : [
+    {
+    "x" : "03bca321dbc6476125a9d928ccf4e42513f8d47e54ad41db296282c3f292a9abcd",
+    "y" : "031022f5c37fd7393da0fc23c499935d16b3c088737eed064ea4d4e8f38d9fc525"
+    }
+    ]
+    },
+    "proofOfKnowledgeOfEncryptionCoins" : [
+    {
+    "c" : "83196352453356152564378649489513640323439674162793501372776696364514174967870",
+    "f" : "35376848219355041000497222661930903633946092309353051528933450604339108410010"
+    }
+    ],
+    "proofOfKnowledgeOfPrivateCredential" : {
+    "c" : "62175084795397091545332519684345932836674374265915123367111205618646230358301",
+    "f" : "3408332434131377355198403182553225854953722879339855593225766921847084376639"
+    }
+    },
+    "publicCredential" : "02ad64f815e369e50200fbf1573c8f0641b8406eeb7c2309f2ec5ce06c0351c6ac"
+    },
+    "status" : "OK",
+    "annotation" : ""
+    },
+    {
+    "ballot" : {
+    "publicLabel" : "0",
+    "voterID" : "voter6",
+    "ballot" : {
+    "encryptedChoice" : {
+    "ciphertexts" : [
+    {
+    "x" : "03e4de6daf5bcf22bb5cc94a7726c6b1559b910317d90e014a544bbdce2c16224f",
+    "y" : "0258dcaab12ec2f2b98070e4f2309a1fb8c7c9af526021a749e352849d38890903"
+    }
+    ]
+    },
+    "proofOfKnowledgeOfEncryptionCoins" : [
+    {
+    "c" : "44648504178497026327687410858105754456412039717862226980696053014564553326751",
+    "f" : "55352721602901942210832895029143618497653306570357586811851665423153529129998"
+    }
+    ],
+    "proofOfKnowledgeOfPrivateCredential" : {
+    "c" : "68385638692255873704924264210998670214672065677385108874652052284070627339461",
+    "f" : "107044454442203981784898938368939999982160546654255953081848306239938258207576"
+    }
+    },
+    "publicCredential" : "029488096090843c9eb906d7676c26ee0f71a982fc194347fb35c37329667ac405"
+    },
+    "status" : "OK",
+    "annotation" : ""
+    }
+    ]
+    }
+]
