@@ -63,10 +63,10 @@ def verify_signature_rsa(fingerprint: str, sign: str, key: str):
 def verification_of_the_public_election_key_with_zk_proof(pk : bytearray, c : int, f : int) -> bool:
     """
     algorithm 8: Verification of the public election key with ZK proof
-    :param pk: 	bytearray PublicKey-ECC-Point (compressed)
-    :param c:	int
-    :param f:	int
-    :return:	bool if the ZK-Proof is valid
+    :param pk:  bytearray PublicKey-ECC-Point (compressed)
+    :param c:   int
+    :param f:   int
+    :return:    bool if the ZK-Proof is valid
     """
     assert type(pk) is bytearray
     assert type(c) is int
@@ -192,14 +192,14 @@ def verification_of_a_ballot_entry_extended(registry: Registry, ballot: BallotBo
 
 def verification_of_a_ballot_entry(pk : bytearray, l : str, z : bytearray, encrypted_choices : typing.List, private_credentials : tuple, encrypted_coins : typing.List) -> bool:
     """
-    Algorithm 9: Verifiction of a ballot entry
-    :param pk:				bytearray PublicKey-ECC-Point (compressed)
-    :param l:				str
-    :param z:				bytearray
-    :param choices:			List
-    :param credentialProof:	tuple
-    :param encryptionProof:	List
-    :return:				bool. True if the BallotEntry is verified correct
+    Algorithm 9: Verification of a ballot entry
+    :param pk:              bytearray PublicKey-ECC-Point (compressed)
+    :param l:               str
+    :param z:               bytearray
+    :param choices:         List
+    :param credentialProof: tuple
+    :param encryptionProof: List
+    :return:                bool. True if the BallotEntry is verified correct
     """
     assert isinstance(pk, bytearray)
     assert isinstance(l, str)
@@ -254,14 +254,14 @@ def verification_of_a_ballot_entry(pk : bytearray, l : str, z : bytearray, encry
 
 def verification_of_a_zk_proof_of_shuffle(pk : bytearray, input_es : list, output_es : list, zkproof : tuple, test=False, progressbar=None) -> bool:
     """
-    Algorithm 12: Verifiction of a ZK-Proof of Shuffle
-    :param pk:			bytearray PublicKey-ECC-Point (compressed)
-    :param input_es:		List
-    :param output_es: 	List
-    :param zkproof:		tuple of the proof: (c,cHat,t1,t2,t3,t4,tHat,s1,s2,s3,s4,sHat,sPrime)
-    :param test: 		This parameter is only used for the unittests, as we have got some steps inbetween to check. I cannt breakof the function as all of those algorithms are directly give by a document and should stay consistent to it.
-    :param progressbar:	You could handle a progessbar object here to be updated by the progress of the verification
-    :return:			bool, True if the verification was correct
+    Algorithm 12: Verification of a ZK-Proof of Shuffle
+    :param pk:          bytearray PublicKey-ECC-Point (compressed)
+    :param input_es:    List
+    :param output_es:   List
+    :param zkproof:     tuple of the proof: (c,cHat,t1,t2,t3,t4,tHat,s1,s2,s3,s4,sHat,sPrime)
+    :param test:        This parameter is only used for the unittests, as we have got some steps inbetween to check. I cannt breakof the function as all of those algorithms are directly give by a document and should stay consistent to it.
+    :param progressbar: You could handle a progessbar object here to be updated by the progress of the verification
+    :return:            bool, True if the verification was correct
     """
 
     assert type(pk) is bytearray
@@ -511,11 +511,11 @@ def ReEnc(g : Point, pk : Point, e : list, r : int) -> tuple:
     """
     ReEnc Helpfunction for algorithms 10 - 12
     This is only implements the part for single points not for lists!
-    :param g:	Point
-    :param pk:	Point, PublicKey-ECC-Point
-    :param e:	List
-    :param r:	int
-    :return:	tuple
+    :param g:   Point
+    :param pk:  Point, PublicKey-ECC-Point
+    :param e:   List
+    :param r:   int
+    :return:    tuple
     """
 
     assert type(g) is Point
@@ -533,11 +533,11 @@ def ReEnc(g : Point, pk : Point, e : list, r : int) -> tuple:
 def verification_of_ballot_decrytion(pk : bytearray, ciphertexts : list, message : bytearray, proofs : list) -> bool:
     """
     algorithm 13: Verification of ballot decryption
-    :param pk:			bytearray of PublicKey-ECC-Point (compressed)
-    :param ciphertexts:	List
-    :param message:		bytearray
-    :param proofs:		List
-    :return:			bool, True if verification is valid
+    :param pk:          bytearray of PublicKey-ECC-Point (compressed)
+    :param ciphertexts: List
+    :param message:     bytearray
+    :param proofs:      List
+    :return:            bool, True if verification is valid
     """
     assert type(pk) is bytearray
 

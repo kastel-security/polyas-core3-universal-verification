@@ -36,16 +36,16 @@ class Ciphertext():
 
 
 class DlogNIZKP():
-	def __init__(self,nizkpJSON):
-		self.c = int(nizkpJSON["c"])  # BigInt
-		self.f = int(nizkpJSON["f"])  # BigInt
-		self.tup = (self.c,self.f)
+    def __init__(self,nizkpJSON):
+        self.c = int(nizkpJSON["c"])  # BigInt
+        self.f = int(nizkpJSON["f"])  # BigInt
+        self.tup = (self.c,self.f)
 
 class EqlogNIZKP():
-	def __init__(self,nizkpJSON):
-		self.c = int(nizkpJSON["c"])  # BigInt
-		self.f = int(nizkpJSON["f"])  # BigInt
-		self.tup = (self.c, self.f)
+    def __init__(self,nizkpJSON):
+        self.c = int(nizkpJSON["c"])  # BigInt
+        self.f = int(nizkpJSON["f"])  # BigInt
+        self.tup = (self.c, self.f)
 
 class MultiCiphertext():
     def __init__(self,encryptedChoiceJSON):
@@ -102,59 +102,59 @@ class BallotBoxEntry():
         return hashlib.sha256(digestion).hexdigest()
 
 class ZKPt():
-	def __init__(self, zkptJSON):
-		self.t1 = bytearray.fromhex(zkptJSON["t1"])
-		self.t2 = bytearray.fromhex(zkptJSON["t2"])
-		self.t3 = bytearray.fromhex(zkptJSON["t3"])
+    def __init__(self, zkptJSON):
+        self.t1 = bytearray.fromhex(zkptJSON["t1"])
+        self.t2 = bytearray.fromhex(zkptJSON["t2"])
+        self.t3 = bytearray.fromhex(zkptJSON["t3"])
 
-		assert len(zkptJSON["t4x"]) == len(zkptJSON["t4y"])
-		self.t4 = [( bytearray.fromhex(zkptJSON["t4x"][i]), bytearray.fromhex(zkptJSON["t4y"][i]) ) for i in range(len(zkptJSON["t4x"]))]
+        assert len(zkptJSON["t4x"]) == len(zkptJSON["t4y"])
+        self.t4 = [( bytearray.fromhex(zkptJSON["t4x"][i]), bytearray.fromhex(zkptJSON["t4y"][i]) ) for i in range(len(zkptJSON["t4x"]))]
 
-		self.tHat = [bytearray.fromhex(x) for x in zkptJSON["tHat"]]
+        self.tHat = [bytearray.fromhex(x) for x in zkptJSON["tHat"]]
 
 class ZKPs():
-	def __init__(self, zkpsJSON):
-		self.s1 = int(zkpsJSON["s1"]) # BigInt
-		self.s2 = int(zkpsJSON["s2"]) # BigInt
-		self.s3 = int(zkpsJSON["s3"]) # BigInt
-		self.s4 = [ int(x) for x in zkpsJSON["s4"]] # List of BigInt
-		self.sHat = [ int(x) for x in zkpsJSON["sHat"]]  # List of BigInt
-		self.sPrime = [ int(x) for x in zkpsJSON["sPrime"]]  # List of BigInt
+    def __init__(self, zkpsJSON):
+        self.s1 = int(zkpsJSON["s1"]) # BigInt
+        self.s2 = int(zkpsJSON["s2"]) # BigInt
+        self.s3 = int(zkpsJSON["s3"]) # BigInt
+        self.s4 = [ int(x) for x in zkpsJSON["s4"]] # List of BigInt
+        self.sHat = [ int(x) for x in zkpsJSON["sHat"]]  # List of BigInt
+        self.sPrime = [ int(x) for x in zkpsJSON["sPrime"]]  # List of BigInt
 
 class ShuffleZKP():
-	def __init__(self,shuffleZKProofJSON):
-		self.t = ZKPt(shuffleZKProofJSON["t"])
-		self.s = ZKPs(shuffleZKProofJSON["s"])
-		self.c = [bytearray.fromhex(x) for x in shuffleZKProofJSON["c"]] # List of GroupElements
-		self.cHat = [bytearray.fromhex(x) for x in shuffleZKProofJSON["cHat"]] # List of GroupElements
+    def __init__(self,shuffleZKProofJSON):
+        self.t = ZKPt(shuffleZKProofJSON["t"])
+        self.s = ZKPs(shuffleZKProofJSON["s"])
+        self.c = [bytearray.fromhex(x) for x in shuffleZKProofJSON["c"]] # List of GroupElements
+        self.cHat = [bytearray.fromhex(x) for x in shuffleZKProofJSON["cHat"]] # List of GroupElements
 
 class MixPacket():
-	def __init__(self, mixPacketJSON):
-		if "proof" in mixPacketJSON:
-			self.proof = ShuffleZKP(mixPacketJSON["proof"]) # c, cHat, t1, t2, t3 ... / NULL
+    def __init__(self, mixPacketJSON):
+        if "proof" in mixPacketJSON:
+            self.proof = ShuffleZKP(mixPacketJSON["proof"]) # c, cHat, t1, t2, t3 ... / NULL
 
-		self.ciphertexts = [MultiCiphertext(i) for i in mixPacketJSON["ciphertexts"]] # List of Multiciphertexts
-		self.publicLabel = mixPacketJSON["publicLabel"] # String
+        self.ciphertexts = [MultiCiphertext(i) for i in mixPacketJSON["ciphertexts"]] # List of Multiciphertexts
+        self.publicLabel = mixPacketJSON["publicLabel"] # String
 
 class PublicKeyWithZKP():
-	def __init__(self,keyGenElectionKeyJSON):
-		self.publicKey = bytearray.fromhex(keyGenElectionKeyJSON["publicKey"])
-		self.zkp = DlogNIZKP(keyGenElectionKeyJSON["zkp"])
+    def __init__(self,keyGenElectionKeyJSON):
+        self.publicKey = bytearray.fromhex(keyGenElectionKeyJSON["publicKey"])
+        self.zkp = DlogNIZKP(keyGenElectionKeyJSON["zkp"])
 
 class DecryptionZKP():
-	def __init__(self, decryptionZKPJSON):
-		self.decryptionShare = bytearray.fromhex(decryptionZKPJSON["decryptionShare"]) # GroupElement
-		self.eqlogZKP = EqlogNIZKP(decryptionZKPJSON["eqlogZKP"])
+    def __init__(self, decryptionZKPJSON):
+        self.decryptionShare = bytearray.fromhex(decryptionZKPJSON["decryptionShare"]) # GroupElement
+        self.eqlogZKP = EqlogNIZKP(decryptionZKPJSON["eqlogZKP"])
 
 class MessageWithProof():
-	def __init__(self, messageJSON):
-		self.message = bytearray.fromhex(messageJSON["message"]) # Bytearray
-		self.proof = [ DecryptionZKP(x) for x in messageJSON["proof"]] # List of DecryptionZKP Proof
+    def __init__(self, messageJSON):
+        self.message = bytearray.fromhex(messageJSON["message"]) # Bytearray
+        self.proof = [ DecryptionZKP(x) for x in messageJSON["proof"]] # List of DecryptionZKP Proof
 
 class MessageWithProofPacket():
-	def __init__(self, messagesJSON):
-		self.publicLabel = messagesJSON["publicLabel"] # String
-		self.messagesWithZKP = [MessageWithProof(x) for x in messagesJSON["messagesWithZKP"]] # List of MessageWithProof
+    def __init__(self, messagesJSON):
+        self.publicLabel = messagesJSON["publicLabel"] # String
+        self.messagesWithZKP = [MessageWithProof(x) for x in messagesJSON["messagesWithZKP"]] # List of MessageWithProof
 
 class I18n():
     def __init__(self, I18nJSON):
@@ -167,9 +167,9 @@ class I18n():
             return self.default
 
 class Content():
-	def __init__(self, contentJSON):
-		self.contentType = contentJSON["contentType"]
-		self.value = I18n(contentJSON["value"])
+    def __init__(self, contentJSON):
+        self.contentType = contentJSON["contentType"]
+        self.value = I18n(contentJSON["value"])
 
 class CandidateSpec():
     def __init__(self, candidateSpecJSON):
@@ -223,10 +223,10 @@ class Core3Ballot():
 
 
 class Voter():
-	def __init__(self, voterJSON):
-		self.publicLabel = voterJSON["publicLabel"] # String
-		self.voterId = voterJSON["id"] # String
-		self.cred = bytearray.fromhex(voterJSON["cred"]) # GroupElement)
+    def __init__(self, voterJSON):
+        self.publicLabel = voterJSON["publicLabel"] # String
+        self.voterId = voterJSON["id"] # String
+        self.cred = bytearray.fromhex(voterJSON["cred"]) # GroupElement)
 
 class Registry():
     def __init__(self, registryJSON):

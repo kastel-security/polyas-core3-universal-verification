@@ -9,21 +9,21 @@ import sys
 
 headerStyle = """
 QLabel{
-	font-size: 20px;
+    font-size: 20px;
 }
 """
 
 resStyle = """
 QLabel{
-	font-size: 20px;
-	text-align: center;
+    font-size: 20px;
+    text-align: center;
 }
 """
 
 logStyle = """
 QLabel{
-	font-size: 12px;
-	text-align: left;
+    font-size: 12px;
+    text-align: left;
 }
 """
 

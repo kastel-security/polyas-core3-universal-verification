@@ -6,7 +6,7 @@ from algos.verifications import initialize_gpg, verify_signature_gpg, close_gpg,
 from algos.verifications import verification_of_a_zk_proof_of_shuffle, independent_generators_for_ec_groups_of_prime_order,verification_of_ballot_decrytion,decoding_of_a_decrypted_ballot
 from algos.secp256k1 import Curve
 
-class VerifictionOfTokenAuthorisationTestClass(unittest.TestCase):
+class VerificationOfTokenAuthorisationTestClass(unittest.TestCase):
     def test_valid_auth(self):
         publicKeyString = """
 mDMEZGfJGBYJKwYBBAHaRw8BAQdAwuYytOtSvtHCpXyJj3AO10XJ/ol69GfTYAFI
@@ -73,7 +73,7 @@ kzU1hGF/R7orkt488V/+BywO
         close_gpg("gpg_tmp2")
         close_gpg("gpg_tmp3")
 
-class VerifictionOfThePublicElectionKeyWithZKProofTestClass(unittest.TestCase):
+class VerificationOfThePublicElectionKeyWithZKProofTestClass(unittest.TestCase):
     """
     unittest.TestCase of the verification of the public election key with ZK-proof (algorithm 8)
     """
@@ -91,7 +91,7 @@ class VerifictionOfThePublicElectionKeyWithZKProofTestClass(unittest.TestCase):
 
         self.assertEqual(False, verification_of_the_public_election_key_with_zk_proof(pk, c, f))
 
-class VerifictionOfABallotEntryTestClass(unittest.TestCase):
+class VerificationOfABallotEntryTestClass(unittest.TestCase):
     """
     unittest.TestCase of the verification of a ballot entry
     """
