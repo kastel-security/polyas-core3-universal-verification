@@ -19,7 +19,23 @@ from .encodingDecodingOfMultiplaintext import decoding_message_from_multiplainte
 from .secp256k1 import secp256k1_messageUpperBound,Curve, Point, secp256k1_q
 from helper.classes import *
 
-def initialize_gpg(keys: list, path = "gpg_tmp"):
+def initialize_gpg(keys: list, path: str = "gpg_tmp"):
+    """
+    Initializes gnupg to perform verifications
+    Parameters
+    ----------
+    keys : list
+        List of OpenPGP keys in base64 encoding.
+    path : str, optional
+        Name of temorary folder the gnupg key files will be stored in.
+        The default is "gpg_tmp".
+
+    Returns
+    -------
+    gpg : TYPE
+        DESCRIPTION.
+
+    """
     assert isinstance(keys, list)
     if os.path.isdir(path):
         close_gpg(path = path)
@@ -30,11 +46,44 @@ def initialize_gpg(keys: list, path = "gpg_tmp"):
         gpg.import_keys(key)
     return gpg
 
-def close_gpg(path = "gpg_tmp"):
+def close_gpg(path: str = "gpg_tmp"):
+    """
+    Removes the files created by an instnce of gnupg
+    Parameters
+    ----------
+    path : str, optional
+        The path where the gnupg key files are stored. 
+        The default is "gpg_tmp".
+
+    Returns
+    -------
+    None.
+
+    """
     if os.path.isdir(path):
         shutil.rmtree(path)
 
 def verify_signature_gpg(fingerprint: str, sign: str, gpg: gnupg.GPG):
+    """
+    Verifies an OpenPGP signature on a revocation token fingerprint
+
+    Parameters
+    ----------
+    fingerprint : str
+        Fingerprint that was signed.
+    sign : str
+        Detached signature on the fingerprint, given in ASCII encoding.
+    gpg : gnupg.GPG
+        An instance of gnupg that has been initialized with the required keys.
+
+    Returns
+    -------
+    boolean
+        Whether the signature is valid.
+    TYPE
+        The fingerprint of the key used for the signature.
+
+    """
     assert isinstance(fingerprint, str)
     assert isinstance(sign, str)
     assert isinstance(gpg, gnupg.GPG)
@@ -45,6 +94,23 @@ def verify_signature_gpg(fingerprint: str, sign: str, gpg: gnupg.GPG):
     return (True if verified else False, verified.fingerprint)
 
 def verify_signature_rsa(fingerprint: str, sign: str, key: str):
+    """
+    Verifies an RSA signature on a ballot fingerprint
+    Parameters
+    ----------
+    fingerprint : str
+        Fingerprint that was signed.
+    sign : str
+        Signature on the fingerprint in hexadecimal encoding.
+    key : str
+        Public key in PKCS1_v5 hexadecimal encoding.
+
+    Returns
+    -------
+    bool
+        Whether the signature is valid.
+
+    """
     assert isinstance(fingerprint, str)
     assert isinstance(sign, str)
     assert isinstance(key, str)
@@ -84,16 +150,15 @@ def verification_of_the_public_election_key_with_zk_proof(pk : bytearray, c : in
     cDash = uniform_hash(secp256k1.q, secp256k1.g, pk, div)
     return c == cDash
 
-def calculate_multi_plaintext_length(ballotStructures: list, publicLabels: list, q: int):
+def calculate_multi_plaintext_length(ballotStructures: list, publicLabel: list, q: int):
     """
-
-
+    Calculate lenght of the multi-plaintext of a ballot based on the public label 
     Parameters
     ----------
     ballotStructures : list
         A map from public label to respective ballot sheet
-    publicLabel : String
-        DESCRIPTION.
+    publicLabel : list
+        A list of ballot sheet ids extracted from the public label.
 
     Returns
     -------
@@ -101,7 +166,7 @@ def calculate_multi_plaintext_length(ballotStructures: list, publicLabels: list,
 
     """
     byteCount = 0
-    for ballotSheet in publicLabels:
+    for ballotSheet in publicLabel:
         assert isinstance(ballotSheet, str)
         # 1 byte marks the ballot sheet as valid or invalid
         byteCount += 1
@@ -134,16 +199,16 @@ def verification_of_a_ballot_entry_extended(registry: Registry, ballot: BallotBo
     Parameters
     ----------
     registry : Registry
-        DESCRIPTION.
+        The registry of the election.
     ballot : BallotBoxEntry
-        DESCRIPTION.
+        The ballot box entry to be verified.
     prevBallots : list
-        Map of public credentials of ballot to ballot, only valid ballots
+        Map of public credentials of ballot to ballot that were previously checked
 
     Returns
     -------
     bool
-        DESCRIPTION.
+        True if ballot is valid and not a duplicate.
 
     """
     # Calculate map of ballot structures identified by id

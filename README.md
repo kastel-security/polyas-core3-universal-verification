@@ -5,7 +5,7 @@ Polyas-Checker is a tool to verify the public boards of the polyas voting system
 ## Requirements
 ```bash
 python3(https://www.python.org/downloads/)
-gnupg(https://gnupg.org/download/) is required only if ballot revocation is supported
+gnupg(https://gnupg.org/download/) is required only if ballot revocation is supported and revocation tokens require signing
 ```
 
 ## Installation using anaconda

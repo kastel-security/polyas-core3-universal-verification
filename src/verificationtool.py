@@ -68,11 +68,51 @@ def load_ballot_box(path):
             ballotBox.append(BallotBoxEntry(bb))
     return ballotBox
 
-def collect_valid_revocations(path, registry):
-    if (registry.revocationPolicy == None):
-        return []
+def count_signatures(registry, authCount):
+    """
+    List the fingerprints of keys used for valid authorisations for each provided
+    token
+    Parameters
+    ----------
+    path : str
+        path to election board files
+    registry : Registry
+        registry board of the election.
+    tokens : map
+        A map of revokation tokens to a list.
+
+    Returns
+    -------
+    None.
+
+    """
     gpg = initialize_gpg(registry.revocationPolicy.verificationKeys)
     authorisations = load_revocation_authorisation(path)
+    for auth in authorisations:
+        verification = verify_signature_gpg(auth.tokenFingerprint, auth.signature, gpg)
+        if verification[0] and auth.tokenFingerprint in authCount:
+            if not verification[1] in authCount[auth.tokenFingerprint]:
+                authCount[auth.tokenFingerprint].append(verification[1])
+
+def collect_valid_revocations(path, registry):
+    """
+    Collects voterIds of all validly revoked ballots
+
+    Parameters
+    ----------
+    path : str
+        path to election board files.
+    registry : TYPE
+        registry board of the election.
+
+    Returns
+    -------
+    list
+        List of voterIds of revoked ballots.
+
+    """
+    if (registry.revocationPolicy == None):
+        return []
     tokens = load_revocation_tokens(path)
     authCount = {}
     for token in tokens:
@@ -81,11 +121,8 @@ def collect_valid_revocations(path, registry):
             authCount[fingerprint] = []
         else:
             tokens.remove(token)
-    for auth in authorisations:
-        verification = verify_signature_gpg(auth.tokenFingerprint, auth.signature, gpg)
-        if verification[0] and auth.tokenFingerprint in authCount:
-            if not verification[1] in authCount[auth.tokenFingerprint]:
-                authCount[auth.tokenFingerprint].append(verification[1])
+    if (registry.revocationPolicy.threshold > 0):
+        count_signatures(registry, authCount)
     authorised = []
     for token in tokens:
         fingerprint = revocation_token_fingerprint(q, token.normalized())
@@ -93,7 +130,8 @@ def collect_valid_revocations(path, registry):
             for voterId in token.voterIds:
                 if voterId not in authorised:
                     authorised += [voterId]
-    close_gpg()
+    if (registry.revocationPolicy.threshold > 0):
+        close_gpg()
     return authorised
 
 

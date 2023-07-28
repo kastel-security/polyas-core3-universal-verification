@@ -144,7 +144,6 @@ class BuildByteArrayByTypeTestClass(unittest.TestCase):
         self.assertEqual(uniform_hash(curve.q, *e), uniform_hash(curve.q, *points))
 
 class BasicHashTestClass(unittest.TestCase):
-    @unittest.skip("Inconsistency in polyas specification document")
     def test_revocation_token(self):
         token = "REVOCATION_TOKEN{ELECTION=XA78,VOTERS=[voter501,voter809]}"
         self.assertEqual(revocation_token_fingerprint(secp256k1_q, token), "1f515cc47433d46a89be")

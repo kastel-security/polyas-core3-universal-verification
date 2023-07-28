@@ -162,8 +162,7 @@ def revocation_token_fingerprint(q: int, token: str) -> str:
     inputdata = build_bytearray_by_type(token)
 
     # Run SHA256 hash over the concated bytearrays
-    # TODO Why is length of fingerprint 20 in document page 34?
-    return hashlib.sha256(inputdata).hexdigest()[0:32]
+    return hashlib.sha256(inputdata).hexdigest()[0:20]
 
 def uniform_hash(q: int, *args) -> int:
     """
