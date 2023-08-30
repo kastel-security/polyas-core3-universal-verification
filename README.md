@@ -1,6 +1,7 @@
 # Polyas-Checker
 
-Polyas-Checker is a tool to verify the public boards of the [Polyas](https://www.polyas.com/) voting systems for universal verifiability, see also the original [publication](https://publikationen.bibliothek.kit.edu/1000117999).
+Polyas-Checker is a tool to verify the bulletin boards of the [POLYAS](https://www.polyas.com/) 3.0 E-Voting System for [universal verifiability](https://gi.de/wahlen/verifikation-der-gi-wahlen-tools-gesucht), see also the original [publication](https://publikationen.bibliothek.kit.edu/1000117999).
+The POLYAS 3.0 E-Voting System is used in the [elections for the executive and the managing committee](https://gi.de/wahlen/) of the [German Informatics Society](https://gi.de/) in autumn 2023.
 
 ## Requirements
 * [python3](https://www.python.org/downloads/)
@@ -49,10 +50,6 @@ The path to the election files as well as all other options are then entered in 
 ```bash
 python -m unittest discover src
 ```
-
-## Contribution
-See [CONTRIBUTION](CONTRIBUTION)
-
 ## Licence
 See [LICENSE](LICENSE)
 
