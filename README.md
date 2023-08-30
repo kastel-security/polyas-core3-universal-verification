@@ -1,57 +1,51 @@
 # Polyas-Checker
 
-Polyas-Checker is a tool to verify the public boards of the polyas voting systems for universal verifiability
+Polyas-Checker is a tool to verify the public boards of the [Polyas](https://www.polyas.com/) voting systems for universal verifiability, see also the original [publication](https://publikationen.bibliothek.kit.edu/1000117999).
 
 ## Requirements
-```bash
-python3(https://www.python.org/downloads/)
-gnupg(https://gnupg.org/download/) is required only if ballot revocation is supported and revocation tokens require signing
-```
+* [python3](https://www.python.org/downloads/)
+* [gnupg](https://gnupg.org/download/) only if ballot revocation is supported and revocation tokens require signing
 
-## Installation using anaconda
+## Installation Using [Anaconda](https://www.anaconda.com/)
 
-### Setup environment
-
+### Setup Environment
 ```bash
 conda env create --name verificationtool --file environment.yml
 ```
 
-### Activating environment
+### Activating Environment
+Before executing the tool or unittests, run the following:
 ```bash
-Before executing the tool or unittests, run
 conda activate verificationtool
 ```
 
-## Installation using pip
+## Installation Using [pip](https://pip.pypa.io)
 
 ### Dependencies
-
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-
-## Executing
-### Executing the tool in command line
+## Running Polyas-Checker
+### In the Command Line
 ```bash
 python src/verificationtool.py [-s | --second-device] [-r | --receipt] [--log] [-l | --language lang] src
-src: Absolute path to election files
--s, --second-device: Check second device public parameters in file src/second-device-public-parameters.json
--r, --receipt: Check ballot cast confirmation files (receipts) in src/receipts
---log: Log the status of ballots for all checked ballot cast confirmations
--l, --language: Sets the preferred language. Texts that are available will be displayed in the preferred language, other texts will be displayed in the default language
-
 ```
+* ``src``: Absolute path to election files
+* ``-s, --second-device``: Check second device public parameters in file ``src/second-device-public-parameters.json``
+* ``-r, --receipt``: Check ballot cast confirmation files (receipts) in ``src/receipts``
+* ``--log``: Log the status of ballots for all checked ballot cast confirmations
+* ``-l, --language``: Sets the preferred language. If available, texts will be displayed in the preferred language, otherwise in the default language.
 
-### Executing the GUI
-Additionally, this repository contains a GUI tool based on Qt5.
+### In the GUI
+Additionally, this repository contains a GUI tool based on [Qt5](https://github.com/qt/qt5).
 
 ```bash
 python src/verificationtoolGUI.py
 ```
-The path to the election files as well as all other options are entered in the GUI
+The path to the election files as well as all other options are then entered in the GUI.
 
-## Unittest
+## Unit Tests
 ```bash
 python -m unittest discover src
 ```
@@ -61,3 +55,9 @@ See [CONTRIBUTION](CONTRIBUTION)
 
 ## Licence
 See [LICENSE](LICENSE)
+
+## Contributors
+The principal development of this software has been done by [Maximilian Noppel](https://intellisec.de/team/max/) for the 2019 version with major refactorings and extensions for the 2023 version by [Christoph Niederbudde](mailto:udqps@student.kit.edu).
+
+## Contact
+For more information, please contact [Michael Kirsten](https://formal.kastel.kit.edu/~kirsten/?lang=en).
