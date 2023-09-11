@@ -2,6 +2,10 @@
 
 # Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel
 
+"""
+Module for working with secp256k1 Curve
+"""
+import gmpy2 as gmpy
 import math
 
 from .TonelliShanks import tonelli
@@ -22,7 +26,6 @@ secp256k1_k = 80
 secp256k1_messageUpperBound = math.floor(secp256k1_p/secp256k1_k)
 
 # From https://github.com/user8547/fast-ecc-python
-import gmpy2 as gmpy
 
 class Point:
     """
@@ -37,7 +40,7 @@ class Point:
         elif isinstance(x, bytearray):
             self.x = int.from_bytes(x,byteorder="big", signed=False)
         else:
-            raise Exception("Point contruction TypeError. x is {type(x)}")
+            raise ValueError("Point contruction TypeError. x is {type(x)}")
 
         if y is None:
             self.y = None
@@ -46,7 +49,7 @@ class Point:
         elif isinstance(y, bytearray):
             self.y = int.from_bytes(y, byteorder="big", signed=False)
         else:
-            raise Exception("Point contruction TypeError. y is {type(y)")
+            raise ValueError("Point contruction TypeError. y is {type(y)")
 
 
     def __eq__(self, other):

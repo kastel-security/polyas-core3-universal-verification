@@ -2,6 +2,9 @@
 
 # Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel
 
+"""
+Module for encoding and decoding of multi-plaintext
+"""
 
 import typing
 import math
@@ -58,8 +61,8 @@ def decoding_message_from_multiplaintext(q : int, multiplaintext : list) -> byte
     s = math.floor(math.log(q, 2) / 8)
 
     msgDash = bytearray()
-    for i in range(0,len(multiplaintext)):
-        a = multiplaintext[i].to_bytes(s,byteorder="big",signed=False)
+    for plaintext in multiplaintext:
+        a = plaintext.to_bytes(s,byteorder="big",signed=False)
         msgDash.extend(a)
 
     k = int.from_bytes(msgDash[:2], byteorder="big", signed=False)

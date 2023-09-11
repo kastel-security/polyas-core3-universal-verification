@@ -1,6 +1,9 @@
 #!/bin/python
 # Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel, Christoph Niederbudde
 
+"""
+Module providing basic algorithms for polyas universal verification defined in second-device-spec-1.0.pdf
+"""
 import hashlib
 import hmac
 import typing
@@ -8,7 +11,8 @@ import typing
 import math
 
 from .TonelliShanks import tonelli
-from .secp256k1 import Point, Curve, secp256k1_q
+from .secp256k1 import Point, Curve
+
 
 def kdf(l: int, k: bytearray, label: bytearray, context: bytearray) -> bytearray:
     """
@@ -26,7 +30,6 @@ def kdf(l: int, k: bytearray, label: bytearray, context: bytearray) -> bytearray
     assert isinstance(k, bytearray)
     assert isinstance(label, bytearray)
     assert isinstance(context, bytearray)
-
 
     # Blocks as array
     B = []
@@ -53,6 +56,7 @@ def kdf(l: int, k: bytearray, label: bytearray, context: bytearray) -> bytearray
 
     return result
 
+
 def numbers_from_seed(l: int, seed: bytearray) -> bytearray:
     """
     algorithm 2: Numbers from seed
@@ -65,7 +69,6 @@ def numbers_from_seed(l: int, seed: bytearray) -> bytearray:
     assert isinstance(l, int)
     assert isinstance(seed, bytearray)
 
-
     i = 1
     while True:
         k = bytearray(seed)
@@ -75,10 +78,11 @@ def numbers_from_seed(l: int, seed: bytearray) -> bytearray:
 
         # Set bits that are to much to zero
         for bit in range(0, -l % 8):
-            b[0] = b[0] & ~(1<<7-bit)
+            b[0] = b[0] & ~(1 << 7 - bit)
 
-        yield (int.from_bytes(b, byteorder='big', signed=False))
+        yield int.from_bytes(b, byteorder='big', signed=False)
         i = i+1
+
 
 def numbers_from_seed_range(b: int, seed: bytearray) -> typing.List[int]:
     """
@@ -97,9 +101,11 @@ def numbers_from_seed_range(b: int, seed: bytearray) -> typing.List[int]:
         if 0 <= i < b:
             yield i
 
-def bytes_needed( n : int) -> int:
+
+def bytes_needed(n: int) -> int:
     """
-    Helper function for algorithm 4 (uniform hash) to get the length in bytes. This function is NOT unittested.
+    Helper function for algorithm 4 (uniform hash) to get the length in bytes. 
+    This function is NOT unittested.
     :param n:
     :return:
     """
@@ -110,41 +116,42 @@ def bytes_needed( n : int) -> int:
     return int(math.log(n, 256)) + 1
 
 
-def build_bytearray_by_type(input) -> bytearray:
+def build_bytearray_by_type(data) -> bytearray:
     """
-    Helper function for algorithm 4 (uniform hash) to build a bytearray from different input-types. This function is unittested.
-    :param input:
+    Helper function for algorithm 4 (uniform hash) to build a bytearray from different input-types. #
+    This function is unittested.
+    :param data:
     :return:
     """
     r = bytearray()
-    if isinstance(input, str):
-        r.extend(input.encode("utf-8"))
-    elif isinstance(input, int):
-        b = bytes_needed(input)
+    if isinstance(data, str):
+        r.extend(data.encode("utf-8"))
+    elif isinstance(data, int):
+        b = bytes_needed(data)
         if b <= 4:
-            r.extend(input.to_bytes(4, byteorder='big'))
+            r.extend(data.to_bytes(4, byteorder='big'))
         else:
             r.extend(b.to_bytes(4, byteorder='big'))
-            r.extend(input.to_bytes(b, byteorder='big'))
-    elif isinstance(input, bytearray):
-        r.extend(input)
-    elif isinstance(input, list):
-        for arg in input:
+            r.extend(data.to_bytes(b, byteorder='big'))
+    elif isinstance(data, bytearray):
+        r.extend(data)
+    elif isinstance(data, list):
+        for arg in data:
             r.extend(build_bytearray_by_type(arg))
-    elif isinstance(input, tuple):
-        input1, input2 = input
-        if isinstance(input1, int) and isinstance(input2, int):
-            r.extend(build_bytearray_by_type(input1))
-            r.extend(build_bytearray_by_type(input2))
-        elif isinstance(input1, bytearray) and isinstance(input2, bytearray):
-            r.extend(build_bytearray_by_type(input1))
-            r.extend(build_bytearray_by_type(input2))
+    elif isinstance(data, tuple):
+        data1, data2 = data
+        if isinstance(data1, int) and isinstance(data2, int):
+            r.extend(build_bytearray_by_type(data1))
+            r.extend(build_bytearray_by_type(data2))
+        elif isinstance(data1, bytearray) and isinstance(data2, bytearray):
+            r.extend(build_bytearray_by_type(data1))
+            r.extend(build_bytearray_by_type(data2))
         else:
-            raise Exception("No valid inputtype. {type(input)} is not ok.")
-    elif isinstance(input, Point):
-        r.extend(input.compress_as_bytearray())
+            raise ValueError("No valid inputtype. {type(data)} is not ok.")
+    elif isinstance(data, Point):
+        r.extend(data.compress_as_bytearray())
     else:
-        raise Exception("No valid inputtype. {type(input)} is not ok.")
+        raise ValueError("No valid inputtype. {type(data)} is not ok.")
 
     return r
 
@@ -163,6 +170,7 @@ def revocation_token_fingerprint(q: int, token: str) -> str:
 
     # Run SHA256 hash over the concated bytearrays
     return hashlib.sha256(inputdata).hexdigest()[0:20]
+
 
 def uniform_hash(q: int, *args) -> int:
     """
@@ -184,6 +192,7 @@ def uniform_hash(q: int, *args) -> int:
     gen = numbers_from_seed_range(q, h)
     for r in gen:
         return r
+
 
 def independent_generators_for_ec_groups_of_prime_order(p: int, a: int, b: int, seed: bytearray, index: int) -> int:
     """
@@ -213,13 +222,13 @@ def independent_generators_for_ec_groups_of_prime_order(p: int, a: int, b: int, 
     for w in ws:
         x = w % p
         try:
-            yDash = tonelli( (pow(x,3) + (a * x) + b)%p, p)
+            yDash = tonelli((pow(x, 3) + (a * x) + b) % p, p)
         except:
             continue
 
         if w < p:
-            y = (-yDash % p)
+            y = -yDash % p
         else:
             y = yDash
         # TODO check for infinity!
-        return Point(x,y)
+        return Point(x, y)
