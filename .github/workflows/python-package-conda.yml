@@ -23,5 +23,4 @@ jobs:
         conda env update --file environment.yml --name base
     - name: Test with unittest
       run: |
-        conda activate verificationtool
         python -m unittest discover src
