@@ -23,8 +23,8 @@ jobs:
         conda env update --file environment.yml --name base
     - name: Check code style
       run: |
-        conda install pylint
-        pylint ./src
+        conda install flake8
+        flake8 src
     - name: Test with unittest
       run: |
         python -m unittest discover src
