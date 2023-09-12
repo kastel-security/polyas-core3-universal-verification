@@ -60,6 +60,7 @@ QProgressBar::chunk {
 }
 """
 
+
 def load_ballot_box(path):
     ballotBoxJSON = loadSecureJSON(path, "ballot-box.json")
     ballotBox = []
@@ -67,6 +68,7 @@ def load_ballot_box(path):
         for bb in bbp["ballots"]:
             ballotBox.append(BallotBoxEntry(bb))
     return ballotBox
+
 
 def count_signatures(registry, authCount):
     """
@@ -93,6 +95,7 @@ def count_signatures(registry, authCount):
         if verification[0] and auth.tokenFingerprint in authCount:
             if not verification[1] in authCount[auth.tokenFingerprint]:
                 authCount[auth.tokenFingerprint].append(verification[1])
+
 
 def collect_valid_revocations(path, registry):
     """
@@ -135,7 +138,6 @@ def collect_valid_revocations(path, registry):
     return authorised
 
 
-
 def verify_ballot_box(path, progressbar=None):
     ballotBox = load_ballot_box(path)
     ballotBoxFlagged = load_ballot_box_flagged(path)
@@ -169,9 +171,10 @@ def verify_ballot_box(path, progressbar=None):
         if progressbar is not None:
             progressbar.setValue(int((i + 1) * 100 / len(ballotBox)))
 
-    if progressbar != None:
+    if progressbar is not None:
         progressbar.setValue(100)
     return True
+
 
 def load_ballot_box_flagged(path):
     ballotFlaggedJSON = loadSecureJSON(path, "ballot-flagged.json")
@@ -181,12 +184,14 @@ def load_ballot_box_flagged(path):
             ballotBox.append(AnnotatedBallot(bb))
     return ballotBox
 
+
 def load_revocation_tokens(path):
     revocationTokensJSON = loadSecureJSON(path, "revocations.json")
     tokens = []
     for token in revocationTokensJSON:
         tokens.append(RevocationToken(token))
     return tokens
+
 
 def load_revocation_authorisation(path):
     revokationAuthorisationJSON = loadSecureJSON(path, "revocation-authorisations.json")
@@ -195,12 +200,14 @@ def load_revocation_authorisation(path):
         authorisations.append(RevocationTokenAuthorisation(authorisation))
     return authorisations
 
+
 def load_ballot_box_filtered_out(path):
     ballotFlaggedJSON = loadSecureJSON(path, "ballot-filtered-out.json")
     ballotBox = []
     for bb in ballotFlaggedJSON:
         ballotBox.append(AnnotatedBallot(bb))
     return ballotBox
+
 
 def load_decryption_decrypt(path):
     messagePacketsJSON = loadSecureJSON(path, "decryption-decrypt-Polyas.json")
@@ -209,9 +216,11 @@ def load_decryption_decrypt(path):
         messagePackets.append(MessageWithProofPacket(m))
     return messagePackets
 
+
 def load_key_gen_election_key(path):
     keyGenElectionKeyJSON = loadSecureJSON(path, "keygen-electionKey-Polyas.json")
     return PublicKeyWithZKP(keyGenElectionKeyJSON)
+
 
 def load_mixing_mix(path):
     mixPacketsJSON = loadSecureJSON(path, "mixing-mix-Polyas.json")
@@ -220,6 +229,7 @@ def load_mixing_mix(path):
         mixPackets.append(MixPacket(mp))
     return mixPackets
 
+
 def load_mixing_input_packets(path):
     mixPacketsJSON = loadSecureJSON(path, "mixing-input-packets.json")
     mixPackets = []
@@ -227,17 +237,18 @@ def load_mixing_input_packets(path):
         mixPackets.append(MixPacket(mp))
     return mixPackets
 
-def verify_mixing_input(path, progressbar = None):
+
+def verify_mixing_input(path, progressbar=None):
     inputMixPackets = load_mixing_input_packets(path)
     flaggedBallots = load_ballot_box_flagged(path)
     registry = load_registry(path)
     # Grouping mix packets by their public label
-    packetsByLabel = {} #Position of all packets fwith a given public label in inputMixPackets
-    packetCountByLabel = {} #Position the first packet that has not been fully analysed in the corresponding list in packetsByLabel
-    packetPosByLabel = {} #Position of the first ballot that has not been analysed in the current package
+    packetsByLabel = {}  # Position of all packets fwith a given public label in inputMixPackets
+    packetCountByLabel = {}  # Position the first packet that has not been fully analysed in the corresponding list in packetsByLabel
+    packetPosByLabel = {}  # Position of the first ballot that has not been analysed in the current package
     for t in range(len(inputMixPackets)):
         packet = inputMixPackets[t]
-        if not packet.publicLabel in packetsByLabel:
+        if packet.publicLabel not in packetsByLabel:
             packetsByLabel[packet.publicLabel] = []
             packetCountByLabel[packet.publicLabel] = 0
             packetPosByLabel[packet.publicLabel] = 0
@@ -252,8 +263,8 @@ def verify_mixing_input(path, progressbar = None):
                 packetsByLabel.pop(publicLabel)
             continue
         for packet in packetsOfLabel:
-            if len(inputMixPackets[packet].ciphertexts) > registry.packetSize or len(inputMixPackets[packet].ciphertexts)  < registry.packetSize / 2:
-                if progressbar != None:
+            if len(inputMixPackets[packet].ciphertexts) > registry.packetSize or len(inputMixPackets[packet].ciphertexts) < registry.packetSize / 2:
+                if progressbar is not None:
                     progressbar.setValue(100)
                 logger.info("A packet on board mixing-input-packets for public label %s has an invalid size" % publicLabel)
                 return False
@@ -264,14 +275,14 @@ def verify_mixing_input(path, progressbar = None):
         if flaggedBallots[t].status != BallotStatus.OK:
             continue
         label = expectedBallot.publicLabel
-        if not label in packetsByLabel:
-            if progressbar != None:
+        if label not in packetsByLabel:
+            if progressbar is not None:
                 progressbar.setValue(100)
             logger.info("Board mixing-input-packets misses ballot of voter %s" % expectedBallot.voterID)
             return False
         correspondingPacket = inputMixPackets[packetsByLabel[label][packetCountByLabel[label]]]
         if not expectedBallot.ballot.encryptedChoice.__eq__(correspondingPacket.ciphertexts[packetPosByLabel[label]]):
-            if progressbar != None:
+            if progressbar is not None:
                 progressbar.setValue(100)
             logger.info("Board mixing-input-packets misses ballot of voter %s" % expectedBallot.voterID)
             return False
@@ -285,19 +296,19 @@ def verify_mixing_input(path, progressbar = None):
                 packetCountByLabel.pop(label)
                 packetPosByLabel.pop(label)
 
-        if progressbar != None:
-            progressbar.setValue(int( (t+1)*100/len(flaggedBallots)))
+        if progressbar is not None:
+            progressbar.setValue(int((t + 1) * 100 / len(flaggedBallots)))
 
     # Check that no ballots were added to the mixing packets
     if len(packetsByLabel) > 0:
-        if progressbar != None:
+        if progressbar is not None:
             progressbar.setValue(100)
         logger.info("Board mixing-input-packets contains additional ballots")
         return False
     return True
 
 
-def verify_shuffle(path, progressbar = None):
+def verify_shuffle(path, progressbar=None):
     keyGenElectionKey = load_key_gen_election_key(path)
     pk = keyGenElectionKey.publicKey
 
@@ -305,7 +316,7 @@ def verify_shuffle(path, progressbar = None):
     inputMixPackets = load_mixing_input_packets(path)
 
     if len(mixPackets) != len(inputMixPackets):
-        if progressbar != None:
+        if progressbar is not None:
             progressbar.setValue(100)
         logger.info("Number of packets before and after mixing are not equal")
         return False
@@ -313,9 +324,7 @@ def verify_shuffle(path, progressbar = None):
     for i in range(len(mixPackets)):
         mixPacket = mixPackets[i]
         inputMixPacket = inputMixPackets[i]
-
         inCipher = [[x.tup for x in multicipher.ciphertexts] for multicipher in inputMixPacket.ciphertexts]
-
         outCipher = [[x.tup for x in multicipher.ciphertexts] for multicipher in mixPacket.ciphertexts]
 
         zkproof = (
@@ -334,29 +343,30 @@ def verify_shuffle(path, progressbar = None):
             mixPacket.proof.s.sPrime,
         )
 
-        if verification_of_a_zk_proof_of_shuffle(pk, inCipher, outCipher, zkproof, progressbar=progressbar) != True:
-            if progressbar != None:
+        if verification_of_a_zk_proof_of_shuffle(pk, inCipher, outCipher, zkproof, progressbar=progressbar) is not True:
+            if progressbar is not None:
                 progressbar.setValue(100)
             return False
 
-        if progressbar != None:
-            progressbar.setValue(int( (i+1)*100/len(mixPackets) ))
+        if progressbar is not None:
+            progressbar.setValue(int((i + 1) * 100 / len(mixPackets)))
 
-    if progressbar != None:
+    if progressbar is not None:
         progressbar.setValue(100)
     return True
 
 
-def verify_public_election_key(path, progressbar = None):
+def verify_public_election_key(path, progressbar=None):
     keyGenElectionKey = load_key_gen_election_key(path)
     pk = keyGenElectionKey.publicKey
     c = keyGenElectionKey.zkp.c
     f = keyGenElectionKey.zkp.f
-    if progressbar != None:
+    if progressbar is not None:
         progressbar.setValue(100)
     return verification_of_the_public_election_key_with_zk_proof(pk, c, f)
 
-def verify_ballot_decryption(path, progressbar = None):
+
+def verify_ballot_decryption(path, progressbar=None):
     keyGenElectionKey = load_key_gen_election_key(path)
     pk = keyGenElectionKey.publicKey
 
@@ -364,14 +374,14 @@ def verify_ballot_decryption(path, progressbar = None):
     mixMixingPackets = load_mixing_mix(path)
 
     if (len(messages) != len(mixMixingPackets)):
-        if progressbar != None:
+        if progressbar is not None:
             progressbar.setValue(100)
         logger.info("Number of decrypted packets is not equal to number of mixed packets")
         return False
 
     for i in range(len(messages)):
         if (len(messages[i].messagesWithZKP) != len(mixMixingPackets[i].ciphertexts)):
-            if progressbar != None:
+            if progressbar is not None:
                 progressbar.setValue(100)
             logger.info("Number of decrypted messages in a packet is not equal to number of encrypted messages in corresponding mixing packet")
             return False
@@ -379,36 +389,38 @@ def verify_ballot_decryption(path, progressbar = None):
             messagesWithZKP = messages[i].messagesWithZKP[j]
             multiciphertexts = mixMixingPackets[i].ciphertexts[j]
 
-            ciphertexts = [ x.tup for x in multiciphertexts.ciphertexts ]
+            ciphertexts = [x.tup for x in multiciphertexts.ciphertexts]
             message = messagesWithZKP.message
-            proofs = [ [ p.decryptionShare, p.eqlogZKP.tup ] for p in messagesWithZKP.proof]
+            proofs = [[p.decryptionShare, p.eqlogZKP.tup] for p in messagesWithZKP.proof]
 
-
-
-            if verification_of_ballot_decrytion(pk, ciphertexts, message, proofs) != True:
-                if progressbar != None:
+            if verification_of_ballot_decrytion(pk, ciphertexts, message, proofs) is not True:
+                if progressbar is not None:
                     progressbar.setValue(100)
                 return False
 
-            if progressbar != None:
-                progressbar.setValue( int(((i)*len(mixMixingPackets[i].ciphertexts) + (j+1))*100 / (len(messages)*len(mixMixingPackets[i].ciphertexts))) )
+            if progressbar is not None:
+                progressbar.setValue(int((i * len(mixMixingPackets[i].ciphertexts) + (j + 1)) * 100 / (len(messages) * len(mixMixingPackets[i].ciphertexts))))
 
-    if progressbar != None:
+    if progressbar is not None:
         progressbar.setValue(100)
     return True
 
+
 def load_registry(path):
-    registryJSON = loadSecureJSON(path,"registry.json")
+    registryJSON = loadSecureJSON(path, "registry.json")
     registry = Registry(registryJSON)
     return registry
+
 
 def printFailed():
     logger.info("                                                   [\033[1;31mFAILED\033[0;0m]")
 
+
 def printOK():
     logger.info("                                                   [\033[1;32m  OK  \033[0;0m]")
 
-def getTallyingResultCmdLine(tallying, registry, language = None):
+
+def getTallyingResultCmdLine(tallying, registry, language=None):
     resulttxt = ""
     for struc in registry.ballotStructures:
         resulttxt += "\n\t[%s]: %s" % (struc.id, struc.title.value(language))
@@ -421,7 +433,8 @@ def getTallyingResultCmdLine(tallying, registry, language = None):
 
     return resulttxt
 
-def print_registry(path, language = None):
+
+def print_registry(path, language=None):
     registry = load_registry(path)
     s = registry.desc + (" " * 54)
     logger.info("----------------------------------------------------------")
@@ -448,6 +461,7 @@ def print_registry(path, language = None):
                 logger.info("\t\tCandidate: %s" % candidate.id)
                 for column in candidate.columns:
                     logger.info("\t\t + %s: %s" % (candidate.id, column.value.value(language)))
+
 
 def do_tallying(path):
     """
@@ -479,7 +493,6 @@ def do_tallying(path):
     logger.info("----------------------------------------------------------")
     messagePackets = load_decryption_decrypt(path)
 
-
     # Filling in the data into the tallying structure
     for messagePacket in messagePackets:
         ballotSheets = messagePacket.publicLabel.split(":")
@@ -491,13 +504,13 @@ def do_tallying(path):
                 listsWithVotes = 0
                 votesOnCandidates = 0
                 # Messages of packet do not contain votes for this ballot sheet
-                if not struc.id in ballotSheets:
+                if struc.id not in ballotSheets:
                     continue
                 invalid = False
                 # Ballot explicitly marked as invalid
                 if next(m) == 1:
                     # NOW INVALID
-                    logger.warning("Message marked as INVALID: %x" % int.from_bytes(messageWithProof.message,byteorder="big",signed=False))
+                    logger.warning("Message marked as INVALID: %x" % int.from_bytes(messageWithProof.message, byteorder="big", signed=False))
                     invalid = True
 
                 for l in struc.lists:
@@ -505,7 +518,7 @@ def do_tallying(path):
                     l.forListValue = nex
                     votesForLists += nex
                     # Check if number of votes given to a list is ok
-                    if invalid == False:
+                    if not invalid:
                         if nex < l.minVotesForList or nex > l.maxVotesForList:
                             logger.warning("%s - %s: ForList Votes: %d  (minForList: %d, maxForList: %d) INVALID" % (struc.id, l.id, nex, l.minVotesForList, l.maxVotesForList))
                             invalid = True
@@ -538,7 +551,7 @@ def do_tallying(path):
                         listsWithVotes += 1
                     l.votes = votes
 
-                    if invalid == False:
+                    if not invalid:
                         if votesOnList < l.minVotesOnList or votesOnList > l.maxVotesOnList:
                             logger.warning("%s - %s: Votes on list: %d  (minVotesOnList: %d, maxVotesOnList: %d) INVALID" % (struc.id, l.id, votesOnList, l.minVotesOnList, l.maxVotesOnList))
                             invalid = True
@@ -546,8 +559,8 @@ def do_tallying(path):
                             logger.warning("%s - %s: Total votes: %d  (minVotesTotal: %d, maxVotesTotal: %d) INVALID" % (struc.id, l.id, votesOnList + l.forListValue, l.minVotesTotal, l.maxVotesTotal))
                             invalid = True
 
-                if invalid == False:
-                    #Checking sum of votes for entire ballot sheet
+                if not invalid:
+                    # Checking sum of votes for entire ballot sheet
                     if struc.maxListsWithChoices < listsWithVotes:
                         logger.warning("%s: ListsWithChoices: %d (maxListsWithChoices: %d) INVALID" % (struc.id, listsWithVotes, struc.maxListsWithChoices))
                         invalid = True
@@ -565,7 +578,7 @@ def do_tallying(path):
                         invalid = True
 
                 # Adding to final Tallying and logging decoded ballots
-                if invalid == False:
+                if not invalid:
                     logger.info("Decoding ballot for ballot sheet %s" % struc.id)
                     for l in struc.lists:
                         tallying[struc.id][l.id + "forList"] += l.forListValue
@@ -576,12 +589,10 @@ def do_tallying(path):
                             if votes[i]:
                                 logger.info("Votes for candidate %s: %s" % (l.candidates[i].id, votes[i]))
 
-
-
-
     return (tallying, rows)
 
-def verify_second_device_public_parameters(path, phase1 = None):
+
+def verify_second_device_public_parameters(path, phase1=None):
     accepted = True
     logger.info("----------------------------------------------------------")
     logger.info("VERIFYING")
@@ -593,7 +604,7 @@ def verify_second_device_public_parameters(path, phase1 = None):
         parametersWithFingerprintJSON = loadSecureJSON(path, "second-device-public-parameters.json")
         parametersJSON = json.loads(parametersWithFingerprintJSON["publicParametersJson"])
         fingerprint = parametersWithFingerprintJSON["fingerprint"]
-    except:
+    except Exception:
         logger.info("No file with second device public parameters found: second-device-public-parameters.json")
         if phase1:
             phase1.setValue(100)
@@ -614,7 +625,7 @@ def verify_second_device_public_parameters(path, phase1 = None):
     verificationKey = ""
     try:
         verificationKey = loadSecureJSON(path, "bbox-ballotbox-key-cp.json")
-    except:
+    except Exception:
         logger.info("No file with verification key found: bbox-ballotbox-key-cp.json")
         if phase1:
             phase1.setValue(100)
@@ -654,7 +665,8 @@ def verify_second_device_public_parameters(path, phase1 = None):
     logger.info("")
     return accepted
 
-def get_signature_if_valid(receiptPath: str, file: str, key: str, logTo = None):
+
+def get_signature_if_valid(receiptPath: str, file: str, key: str, logTo=None):
     """
 
     Parameters
@@ -674,7 +686,7 @@ def get_signature_if_valid(receiptPath: str, file: str, key: str, logTo = None):
     receipt = reader.pages[0].extract_text().replace("\n", "")
     f.close()
     fingerprintList = re.findall(r".*BEGIN FINGERPRINT----- ?([0-9|a-f]*) ?-----END FINGERPRINT.*", receipt)
-    #signList = re.findall(r".*BEGIN SIGNATURE--\n(.*)\n--END SIGNATURE.*", receipt)
+
     signList = re.findall(r".*BEGIN SIGNATURE----- ?(.*) ?-----END SIGNATURE.*", receipt)
     if len(fingerprintList) != 1 or len(signList) != 1:
         logger.info("Ballot cast confirmation file %s does not have the correct format." % file)
@@ -688,7 +700,8 @@ def get_signature_if_valid(receiptPath: str, file: str, key: str, logTo = None):
         return None
     return fingerprintList[0]
 
-def verify_receipts(path, phase1 = None, log = False, logTo = None):
+
+def verify_receipts(path, phase1=None, log=False, logTo=None):
     valid = True
     verificationKey = None
     receiptPath = os.path.join(path, "receipts")
@@ -696,7 +709,7 @@ def verify_receipts(path, phase1 = None, log = False, logTo = None):
         verificationKey = loadSecureJSON(path, "bbox-ballotbox-key-cp.json")
         if phase1:
             phase1.setValue(25)
-    except:
+    except Exception:
         logger.info("No file with verification key found: bbox-ballotbox-key-cp.json")
         if phase1:
             phase1.setValue(100)
@@ -722,11 +735,11 @@ def verify_receipts(path, phase1 = None, log = False, logTo = None):
         ballotsByFingerprint[ballots[t].ballot.fingerprint()] = t
     files = os.listdir(receiptPath)
     totalConfirmationsFound = 0
-    for t in range (len(files)):
+    for t in range(len(files)):
         fingerprint = get_signature_if_valid(receiptPath, files[t], verificationKey, logTo)
-        if fingerprint and not fingerprint in ballotsByFingerprint:
+        if fingerprint and fingerprint not in ballotsByFingerprint:
             logger.info("Ballot %s is not included in the ballot box." % fingerprint)
-            if logTo != None:
+            if logTo is not None:
                 logTo.append({"status": ReceiptStatus.MISSING, "fingerprint": fingerprint})
             valid = False
             if phase1:
@@ -736,10 +749,10 @@ def verify_receipts(path, phase1 = None, log = False, logTo = None):
         if log and fingerprint in ballotsByFingerprint:
             status = ballots[ballotsByFingerprint[fingerprint]].status
             logger.info("Ballot %s is included in the ballot box with status %s." % (fingerprint, status))
-            if logTo != None:
+            if logTo is not None:
                 logTo.append({"status": ReceiptStatus.PRESENT, "fingerprint": fingerprint, "ballotStatus": status})
         if phase1:
-            phase1.setValue(50 + math.ceil(50/len(files) * (t + 1)))
+            phase1.setValue(50 + math.ceil(50 / len(files) * (t + 1)))
     close_gpg()
 
     logger.info("Total number of ballots checked: %s" % totalConfirmationsFound)
@@ -753,7 +766,6 @@ def verify_receipts(path, phase1 = None, log = False, logTo = None):
             phase1.setStyleSheet(redStyle)
     logger.info("")
     return valid
-
 
 
 def checking_files(path):
@@ -770,12 +782,13 @@ def checking_files(path):
     load_mixing_mix(path)
     logger.info("----------------------------------------------------------")
 
-def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=None, phase5 = None):
+
+def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=None, phase5=None):
     logger.info("----------------------------------------------------------")
     logger.info("VERIFYING")
     logger.info("----------------------------------------------------------")
     logger.info("Verifying the public election key with zk-proof...")
-    if verify_public_election_key(path, phase1) != True:
+    if verify_public_election_key(path, phase1) is not True:
         printFailed()
         accepted = False
         if phase1:
@@ -786,7 +799,7 @@ def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=N
             phase1.setStyleSheet(greenStyle)
 
     logger.info("Verifying ballot-box...")
-    if verify_ballot_box(path, phase2) != True:
+    if verify_ballot_box(path, phase2) is not True:
         printFailed()
         accepted = False
         if phase2:
@@ -797,7 +810,7 @@ def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=N
             phase2.setStyleSheet(greenStyle)
 
     logger.info("Verifying ballot decryption...")
-    if verify_ballot_decryption(path, phase3) != True:
+    if verify_ballot_decryption(path, phase3) is not True:
         printFailed()
         accepted = False
         if phase3:
@@ -808,7 +821,7 @@ def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=N
             phase3.setStyleSheet(greenStyle)
 
     logger.info("Verifying mix packets...")
-    if verify_mixing_input(path, phase4) != True:
+    if verify_mixing_input(path, phase4) is not True:
         printFailed()
         accepted = False
         if phase4:
@@ -819,7 +832,7 @@ def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=N
             phase4.setStyleSheet(greenStyle)
 
     logger.info("Verifying shuffle...")
-    if verify_shuffle(path, phase5) != True:
+    if verify_shuffle(path, phase5) is not True:
         printFailed()
         accepted = False
         if phase5:
@@ -838,6 +851,7 @@ def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=N
 
     return accepted
 
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
@@ -846,9 +860,9 @@ if __name__ == '__main__':
         epilog='')
 
     parser.add_argument('path', type=str, help='The absolute path to the polyas verification files.')
-    parser.add_argument('-s', '--second-device', action='store_true',dest = 'sdpp', help = 'Verificationtool will verify second device public parameters.')
-    parser.add_argument('-r', '--receipts', action='store_true',dest = 'rec', help = 'Verificationtool will check ballot cast confirmations in folder \receipts\'.')
-    parser.add_argument('--log', action='store_true',dest = 'list', help = 'Verificationtool will log additional information for ballot cast confirmations.')
+    parser.add_argument('-s', '--second-device', action='store_true', dest='sdpp', help='Verificationtool will verify second device public parameters.')
+    parser.add_argument('-r', '--receipts', action='store_true', dest='rec', help='Verificationtool will check ballot cast confirmations in folder \receipts\'.')
+    parser.add_argument('--log', action='store_true', dest='list', help='Verificationtool will log additional information for ballot cast confirmations.')
     parser.add_argument('-l', '--language', type=str, help="Set preferred language")
     args = parser.parse_args()
 
@@ -862,7 +876,7 @@ if __name__ == '__main__':
     checking_files(path)
 
     print_registry(path, args.language)
-    (tallying,rows) = do_tallying(path)
+    (tallying, rows) = do_tallying(path)
 
     logger.info(getTallyingResultCmdLine(tallying, load_registry(path), args.language))
 
@@ -872,5 +886,4 @@ if __name__ == '__main__':
         verify_second_device_public_parameters(path)
 
     if args.rec:
-        verify_receipts(path, None, log = args.list)
-
+        verify_receipts(path, None, log=args.list)
