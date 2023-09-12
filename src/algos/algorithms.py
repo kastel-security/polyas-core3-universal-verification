@@ -81,7 +81,7 @@ def numbers_from_seed(l: int, seed: bytearray) -> bytearray:
             b[0] = b[0] & ~(1 << 7 - bit)
 
         yield int.from_bytes(b, byteorder='big', signed=False)
-        i = i+1
+        i = i + 1
 
 
 def numbers_from_seed_range(b: int, seed: bytearray) -> typing.List[int]:
@@ -104,7 +104,7 @@ def numbers_from_seed_range(b: int, seed: bytearray) -> typing.List[int]:
 
 def bytes_needed(n: int) -> int:
     """
-    Helper function for algorithm 4 (uniform hash) to get the length in bytes. 
+    Helper function for algorithm 4 (uniform hash) to get the length in bytes.
     This function is NOT unittested.
     :param n:
     :return:
@@ -223,7 +223,7 @@ def independent_generators_for_ec_groups_of_prime_order(p: int, a: int, b: int, 
         x = w % p
         try:
             yDash = tonelli((pow(x, 3) + (a * x) + b) % p, p)
-        except:
+        except Exception:
             continue
 
         if w < p:

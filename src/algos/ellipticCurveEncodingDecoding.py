@@ -43,4 +43,4 @@ def elliptic_curve_decoding(pt: Point) -> int:
     """
     assert isinstance(pt, Point)
 
-    return math.floor((pt.x-1)//secp256k1_k)
+    return math.floor((pt.x - 1) // secp256k1_k)

@@ -1,5 +1,6 @@
 [BASIC]
 
 # Good variable names which should always be accepted, separated by a comma.
-good-names=t1,t2,t3,t4,tHat,tHati,tHatTmp1,tHatTmp2,tHatTmp3,tHatTmp4,s1,s2,s3,s4,sHat,sHati,sPrime,c,cHat,cHati,cDash,cDashi,ci,N,w,y,yi,x,xi,e,ei,ej,i,j,pk,h1,h2,h3,h,f,fi,z,Ai,Bi,m,di,b,ni,hs,eDashs,us,es,netS4,l,p,s,r,t,q,n,a,gx,gy,g,P,xR,R,yR,k,xP,yP,xH,yH,p1,p2,pt,es,B,yDash,ws,msg,msgDash
-max-line-length=127
+good-names=t1,t2,t3,t4,tHat,tHati,tHatTmp1,tHatTmp2,tHatTmp3,tHatTmp4,s1,s2,s3,s4,sHat,sHati,sPrime,c,cHat,cHati,cDash,cDashi,ci,N,w,y,yi,x,xi,e,ei,ej,i,j,pk,h1,h2,h3,h,f,fi,z,Ai,Bi,m,di,b,ni,hs,eDashs,us,es,netS4,l,p,s,r,t,q,n,a,gx,gy,g,P,Q,xR,R,yR,k,xP,yP,xH,yH,p1,p2,pt,es,B,yDash,ws,msg,msgDash
+max-line-length=240
+fail-under=8

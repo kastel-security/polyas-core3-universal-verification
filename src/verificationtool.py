@@ -12,10 +12,11 @@ import re
 import math
 from algos.secp256k1 import secp256k1_q as q
 
-from helper.classes import *
-from helper.secureJSON import *
+from helper.classes import BallotBoxEntry, BallotStatus, AnnotatedBallot, RevocationToken, RevocationTokenAuthorisation, MessageWithProofPacket, PublicKeyWithZKP, MixPacket, Registry, ReceiptStatus
+from helper.secureJSON import loadSecureJSON
 
-from algos.verifications import *
+from algos.verifications import initialize_gpg, verify_signature_gpg, close_gpg, verification_of_a_ballot_entry_extended, verification_of_a_zk_proof_of_shuffle
+from algos.verifications import verification_of_the_public_election_key_with_zk_proof, verification_of_ballot_decrytion, verify_signature_rsa, byte_reader
 from algos.algorithms import revocation_token_fingerprint, build_bytearray_by_type
 
 VERSION_MAJOR = 1
