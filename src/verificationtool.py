@@ -37,7 +37,6 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 
-
 greenStyle = """
 QProgressBar {
     border: 2px solid grey;
@@ -112,7 +111,7 @@ def collect_valid_revocations(path, registry):
         List of voterIds of revoked ballots.
 
     """
-    if (registry.revocationPolicy == None):
+    if (registry.revocationPolicy is None):
         return []
     tokens = load_revocation_tokens(path)
     authCount = {}
@@ -137,12 +136,10 @@ def collect_valid_revocations(path, registry):
 
 
 
-def verify_ballot_box(path, progressbar = None):
+def verify_ballot_box(path, progressbar=None):
     ballotBox = load_ballot_box(path)
     ballotBoxFlagged = load_ballot_box_flagged(path)
-    #ballotBoxFilteredOut = load_ballot_box_filtered_out(path)
     registry = load_registry(path)
-    #voters = load_registry(path).voters
     assert len(ballotBox) == len(ballotBoxFlagged)
 
     keyGenElectionKey = load_key_gen_election_key(path)
@@ -154,7 +151,7 @@ def verify_ballot_box(path, progressbar = None):
         bb = ballotBox[i]
         bba = ballotBoxFlagged[i]
         if not bba.ballot.__eq__(bb):
-            progressbar.setValue(int((i+1)*100 / len(ballotBox))) if progressbar != None else None
+            progressbar.setValue(int((i + 1) * 100 / len(ballotBox))) if progressbar is not None else None
             logger.info("Ballot of voter %s incorrectly transferred from ballot-box to ballot-box-flagged" % bb.voterID)
             return False
         flag = ""
@@ -168,13 +165,9 @@ def verify_ballot_box(path, progressbar = None):
         if flag != bba.status:
             logger.info("Ballot of voter %s incorrectly flagged: Expected %s but was %s" % (bb.voterID, flag, bba.status))
             return False
-        if False:
-            if progressbar != None:
-                progressbar.setValue(100)
-            return False
 
-        if progressbar != None:
-            progressbar.setValue(int((i+1)*100 / len(ballotBox)))
+        if progressbar is not None:
+            progressbar.setValue(int((i + 1) * 100 / len(ballotBox)))
 
     if progressbar != None:
         progressbar.setValue(100)
