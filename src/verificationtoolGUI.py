@@ -64,9 +64,10 @@ def start_verification():
     accepted = True
     path = pathEdit.text()
 
+    checking_files(path)
     try:
         checking_files(path)
-    except:
+    except Exception as e:
         resLabel.setText("Provided directory is invalid.")
         return
 
