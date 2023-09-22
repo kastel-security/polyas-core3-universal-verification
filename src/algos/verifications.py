@@ -632,7 +632,7 @@ def verification_of_ballot_decrytion(pk: bytearray, ciphertexts: list, message: 
     dis = []
 
     # Step 1: Check domains
-    assert pk.isValid()
+    assert pk.valid()
     x = []
     y = []
     alpha = []
@@ -641,9 +641,9 @@ def verification_of_ballot_decrytion(pk: bytearray, ciphertexts: list, message: 
         yi = curve.decompress(ciphertexts[i][1])
         proofi = proofs[i]
         alphai = curve.decompress(proofi[0])
-        assert xi.isValid()
-        assert yi.isValid()
-        assert alphai.isValid()
+        assert xi.valid()
+        assert yi.valid()
+        assert alphai.valid()
         assert 0 <= proofi[1][0] and secp256k1_q > proofi[1][0]
         assert 0 <= proofi[1][1] and secp256k1_q > proofi[1][1]
         x.append(xi)
