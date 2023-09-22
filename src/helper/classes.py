@@ -29,8 +29,8 @@ class AnnotatedBallot():
 
 class Ciphertext():
     def __init__(self, ciphertextJSON):
-        self.x = int(ciphertextJSON["x"], 16)  # Int
-        self.y = int(ciphertextJSON["y"], 16)  # Int
+        self.x = bytearray.fromhex(ciphertextJSON["x"])  # GroupElement
+        self.y = bytearray.fromhex(ciphertextJSON["y"])  # GroupElement
         self.tup = (self.x, self.y)
         curve = Curve()
         xPoint = curve.decompress(self.x)
@@ -71,7 +71,6 @@ class MultiCiphertext():
 
 class Ballot():
     def __init__(self, ballotJSON):
-        print(ballotJSON)
         self.encryptedChoice = MultiCiphertext(ballotJSON["encryptedChoice"])
         self.proofOfKnowledgeOfEncryptionCoins = [DlogNIZKP(i) for i in ballotJSON["proofOfKnowledgeOfEncryptionCoins"]]
         self.proofOfKnowledgeOfPrivateCredential = DlogNIZKP(ballotJSON["proofOfKnowledgeOfPrivateCredential"])

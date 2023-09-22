@@ -245,7 +245,6 @@ def verification_of_a_ballot_entry_extended(registry: Registry, ballot: BallotBo
     # Step 3: Check length of multi-ciphertext (should be teh same as length of multi-plaintext)
     expected_length = calculate_multi_plaintext_length(ballotStructures, ballotSheets, secp256k1_q)
     if expected_length != len(ballot.ballot.encryptedChoice.ciphertexts):
-        # print(expected_length, len(ballot.ballot.encryptedChoice.ciphertexts))
         return False
 
     # Step 4: No ballot with the same voters credentials

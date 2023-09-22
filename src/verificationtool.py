@@ -218,7 +218,7 @@ def load_decryption_decrypt(path):
 
 
 def load_key_gen_election_key(path):
-    keyGenElectionKeyJSON = loadSecureJSON(path, "keygen-electionKey-Polyas.json")
+    keyGenElectionKeyJSON = loadSecureJSON(path, "keygen-electionKey-Polyas.json", sequence=False)
     return PublicKeyWithZKP(keyGenElectionKeyJSON)
 
 
@@ -407,7 +407,7 @@ def verify_ballot_decryption(path, progressbar=None):
 
 
 def load_registry(path):
-    registryJSON = loadSecureJSON(path, "registry.json")
+    registryJSON = loadSecureJSON(path, "registry.json", sequence=False)
     registry = Registry(registryJSON)
     return registry
 
@@ -601,7 +601,7 @@ def verify_second_device_public_parameters(path, phase1=None):
     parametersJSON = {}
     fingerprint = ""
     try:
-        parametersWithFingerprintJSON = loadSecureJSON(path, "second-device-public-parameters.json")
+        parametersWithFingerprintJSON = loadSecureJSON(path, "second-device-public-parameters.json", sequence=False)
         parametersJSON = json.loads(parametersWithFingerprintJSON["publicParametersJson"])
         fingerprint = parametersWithFingerprintJSON["fingerprint"]
     except Exception:
@@ -613,7 +613,7 @@ def verify_second_device_public_parameters(path, phase1=None):
         return False
     parameterBytes = build_bytearray_by_type(json.dumps(parametersJSON))
     fingerprintRecalc = hashlib.sha256(parameterBytes).hexdigest()
-    registryJSON = loadSecureJSON(path, "registry.json")
+    registryJSON = loadSecureJSON(path, "registry.json", sequence=False)
     if fingerprint != fingerprintRecalc:
         logger.info("Fingerprint of second device public parameters is invalid.")
         if phase1:
@@ -624,7 +624,7 @@ def verify_second_device_public_parameters(path, phase1=None):
     keygen = load_key_gen_election_key(path)
     verificationKey = ""
     try:
-        verificationKey = loadSecureJSON(path, "bbox-ballotbox-key-cp.json")
+        verificationKey = loadSecureJSON(path, "bbox-ballotbox-key-cp.json", sequence=False)
     except Exception:
         logger.info("No file with verification key found: bbox-ballotbox-key-cp.json")
         if phase1:
@@ -706,7 +706,7 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
     verificationKey = None
     receiptPath = os.path.join(path, "receipts")
     try:
-        verificationKey = loadSecureJSON(path, "bbox-ballotbox-key-cp.json")
+        verificationKey = loadSecureJSON(path, "bbox-ballotbox-key-cp.json", sequence=False)
         if phase1:
             phase1.setValue(25)
     except Exception:
