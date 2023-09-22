@@ -4,7 +4,7 @@
 
 from algos.algorithms import build_bytearray_by_type
 from algos.ellipticCurveEncodingDecoding import elliptic_curve_encoding
-from algos.secp256k1 import Point
+from algos.secp256k1 import Curve
 import hashlib
 import math
 from enum import Enum
@@ -32,8 +32,9 @@ class Ciphertext():
         self.x = int(ciphertextJSON["x"], 16)  # Int
         self.y = int(ciphertextJSON["y"], 16)  # Int
         self.tup = (self.x, self.y)
-        xPoint = Point(elliptic_curve_encoding(self.x))
-        yPoint = Point(elliptic_curve_encoding(self.y))
+        curve = Curve()
+        xPoint = curve.decompress(self.x)
+        yPoint = curve.decompress(self.y)
         if not xPoint.valid() or not yPoint.valid():
             raise ValueError("Invalid ciphertext")
 
