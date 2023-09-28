@@ -3,7 +3,6 @@
 # Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel, Christoph Niederbudde
 
 from algos.algorithms import build_bytearray_by_type
-from algos.ellipticCurveEncodingDecoding import elliptic_curve_encoding
 from algos.secp256k1 import Curve
 import hashlib
 import math

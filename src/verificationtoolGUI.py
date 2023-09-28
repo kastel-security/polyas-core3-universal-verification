@@ -2,9 +2,10 @@
 
 # Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel, Christoph Niederbudde
 
-
-from PyQt5.QtWidgets import *
-from verificationtool import *
+from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QApplication, QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QGroupBox
+from PyQt5.QtWidgets import QCheckBox, QProgressBar, QTableWidget, QGridLayout, QScrollArea
+from verificationtool import checking_files, load_registry, do_tallying, print_registry, get_tallying_result_cmdline, logger, verification
+from verificationtool import verify_second_device_public_parameters, verify_receipts, ReceiptStatus, greenStyle
 import sys
 
 headerStyle = """
@@ -27,6 +28,7 @@ QLabel{
 }
 """
 
+
 def set_tallying_result_GUI(tallying, registry, tallyingTable):
     resulttxt = ""
     row = 0
@@ -37,7 +39,7 @@ def set_tallying_result_GUI(tallying, registry, tallyingTable):
         row += 1
         for l in struc.lists:
             if tallyingTable:
-                tallyingTable.setItem(row, 1, QTableWidgetItem("["+ l.id + "] " + str(l.title.value(lang)) + ": " + str(l.columnHeaders[0].value(lang))))
+                tallyingTable.setItem(row, 1, QTableWidgetItem("[" + l.id + "] " + str(l.title.value(lang)) + ": " + str(l.columnHeaders[0].value(lang))))
                 tallyingTable.setItem(row, 3, QTableWidgetItem(str(tallying[struc.id][l.id + "forList"])))
             resulttxt += "\n\t%s: %s  : %d" % (l.title.value(lang), l.columnHeaders[0].value(lang), tallying[struc.id][l.id + "forList"])
             row += 1
@@ -54,6 +56,7 @@ def set_tallying_result_GUI(tallying, registry, tallyingTable):
 
     return resulttxt
 
+
 def start_verification():
     resLabel.setText('Verifying...')
     optionWidget.setVisible(False)
@@ -66,7 +69,7 @@ def start_verification():
 
     try:
         checking_files(path)
-    except:
+    except FileNotFoundError:
         resLabel.setText("Provided directory is invalid.")
         return
 
@@ -81,11 +84,10 @@ def start_verification():
     tallyingTable.setColumnCount(4)
     tallyingTable.setRowCount(rows)
 
-    resulttxt = getTallyingResultCmdLine(tallying, load_registry(path))
+    resulttxt = get_tallying_result_cmdline(tallying, load_registry(path))
     set_tallying_result_GUI(tallying, registry, tallyingTable)
 
     logger.info(resulttxt)
-
 
     # Starting the verification
     accepted = verification(path, accepted, phase1, phase2, phase3, phase4)
@@ -115,9 +117,11 @@ def start_verification():
     else:
         resLabel.setText('Not accepted!')
 
+
 def setGUIExtras(checkbox, receiptWidgets: list):
     for widget in receiptWidgets:
         widget.setVisible(checkbox.isChecked())
+
 
 def resetProgress():
     phase1.setValue(0)
@@ -133,6 +137,7 @@ def resetProgress():
     secondDeviceProgress.setStyleSheet(greenStyle)
     receiptsProgress.setStyleSheet(greenStyle)
 
+
 def reset():
     optionWidget.setVisible(True)
     progressWidget.setVisible(True)
@@ -146,9 +151,11 @@ def reset():
     resLabel.setText("")
     resetProgress()
 
+
 def browse():
     filepath = QFileDialog.getExistingDirectory()
     pathEdit.setText(filepath)
+
 
 # QtApplication
 app = QApplication([])
@@ -161,8 +168,8 @@ layout.addWidget(headerLabel)
 optionWidget = QGroupBox()
 optionLayout = QGridLayout()
 optionWidget.setLayout(optionLayout)
-#Selection of additional verification tasks
-#Second device public parameters
+# Selection of additional verification tasks
+# Second device public parameters
 secondDevice = QCheckBox(text="Verify second device public parameters")
 
 secondDeviceLabel = QLabel("Verifying the second device public parameters")
@@ -173,7 +180,7 @@ secondDeviceProgress.setVisible(False)
 secondDevice.stateChanged.connect(lambda: setGUIExtras(secondDevice, [secondDeviceLabel, secondDeviceProgress]))
 optionLayout.addWidget(secondDevice, 0, 0)
 
-#Ballot cast confirmations
+# Ballot cast confirmations
 receipts = QCheckBox(text="Verify ballot cast confirmations")
 receiptsLog = QCheckBox(text="Show status of ballot cast confirmation")
 receiptsLogArea = QScrollArea()
@@ -230,7 +237,7 @@ progressLayout.addWidget(phase4Label)
 phase4 = QProgressBar()
 progressLayout.addWidget(phase4)
 
-#Adding optional progres bars
+# Adding optional progres bars
 progressLayout.addWidget(secondDeviceLabel)
 progressLayout.addWidget(secondDeviceProgress)
 progressLayout.addWidget(receiptsLabel)
@@ -274,10 +281,8 @@ layout.addWidget(resetButton)
 
 window.setLayout(layout)
 window.setWindowTitle('Verification of election result')
-window.setFixedSize(800,800)
+window.setFixedSize(800, 800)
 window.show()
 
 if __name__ == '__main__':
-    sys.exit(app.exec_() )
-
-
+    sys.exit(app.exec_())
