@@ -420,7 +420,7 @@ def printOK():
     logger.info("                                                   [\033[1;32m  OK  \033[0;0m]")
 
 
-def getTallyingResultCmdLine(tallying, registry, language=None):
+def get_tallying_result_cmdline(tallying, registry, language=None):
     resulttxt = ""
     for struc in registry.ballotStructures:
         resulttxt += "\n\t[%s]: %s" % (struc.id, struc.title.value(language))
@@ -872,13 +872,16 @@ if __name__ == '__main__':
 
     accepted = True
     path = str(args.path)
-
-    checking_files(path)
+    try:
+        checking_files(path)
+    except FileNotFoundError as error:
+        logger.info("File missing: " + str(error))
+        exit(0)
 
     print_registry(path, args.language)
     (tallying, rows) = do_tallying(path)
 
-    logger.info(getTallyingResultCmdLine(tallying, load_registry(path), args.language))
+    logger.info(get_tallying_result_cmdline(tallying, load_registry(path), args.language))
 
     verification(path, accepted)
 

@@ -2,18 +2,19 @@
 
 # Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Christoph Niederbudde
 import unittest
-from parameterized import parameterized
-from app.helper.classes import *
-import logging
-from app.verificationtool import verify_ballot_box, verify_mixing_input, get_signature_if_valid, initialize_gpg, close_gpg
 import sys
-from app.helper.secureJSON import *
-from app.algos.verifications import *
+import logging
+import json
+from parameterized import parameterized
+from app.helper.classes import BallotBoxEntry
+from app.verificationtool import verify_ballot_box, verify_mixing_input, get_signature_if_valid, initialize_gpg
+from app.helper.secureJSON import loadSecureJSON
 
 logger = logging.getLogger()
 logger.level = logging.DEBUG
 stream_handler = logging.StreamHandler(sys.stdout)
 logger.addHandler(stream_handler)
+
 
 class BallotBoxFlaggedTestClass(unittest.TestCase):
     @parameterized.expand([["different_ballots",
@@ -45,6 +46,7 @@ class BallotBoxFlaggedTestClass(unittest.TestCase):
         valid = verify_ballot_box(path + dataset)
         self.assertTrue(valid)
 
+
 class InputMixPacketsTestClass(unittest.TestCase):
     @parameterized.expand([["packet_to_small", "A packet on board mixing-input-packets for public label 0 has an invalid size"],
                           ["packet_to_large", "A packet on board mixing-input-packets for public label 0 has an invalid size"],
@@ -64,6 +66,7 @@ class InputMixPacketsTestClass(unittest.TestCase):
         path = "../data/ballot_mixing_packets/valid/"
         valid = verify_mixing_input(path + folder)
         self.assertTrue(valid)
+
 
 class ReceiptTestClass(unittest.TestCase):
     def testValidFingerprint(self):
@@ -98,7 +101,7 @@ class ReceiptTestClass(unittest.TestCase):
 
     def testValidReceipt(self):
         path = "../data/full_doc_ext"
-        key = loadSecureJSON(path,"bbox-ballotbox-key-cp.json")
+        key = loadSecureJSON(path, "bbox-ballotbox-key-cp.json")
         gpg = initialize_gpg([key])
         self.assertNotEqual(get_signature_if_valid(path + "/receipts", "b1.pdf", gpg, key), None)
 
@@ -107,6 +110,7 @@ class ReceiptTestClass(unittest.TestCase):
         key = loadSecureJSON(path, "bbox-ballotbox-key-cp.json")
         gpg = initialize_gpg([key])
         self.assertEqual(get_signature_if_valid(path + "/receipts", "b2.pdf", gpg, key), None)
+
 
 class SeconDevicePublicParametersTestClass(unittest.testCase):
     @parameterized.expand([])
@@ -123,6 +127,7 @@ class SeconDevicePublicParametersTestClass(unittest.testCase):
         path = "../data/ballot_board_flagged/valid_with_invalid_ballots/"
         valid = verify_ballot_box(path + dataset)
         self.assertTrue(valid)
+
 
 if __name__ == "__main__":
     unittest.main()

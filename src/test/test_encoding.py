@@ -7,6 +7,7 @@ from algos.encodingDecodingOfMultiplaintext import encoding_message_as_multiplai
 from algos.secp256k1 import Point
 import math
 
+
 class EllipticCurveEncodingTestClass(unittest.TestCase):
     """
     unittest.TestCase for elliptic curve encoding
@@ -17,10 +18,11 @@ class EllipticCurveEncodingTestClass(unittest.TestCase):
 
         :return:
         """
-        (x,y) = elliptic_curve_encoding(723700557733226221397318656304299424082937404160253525246609900049430216698)
+        (x, y) = elliptic_curve_encoding(723700557733226221397318656304299424082937404160253525246609900049430216698)
 
         self.assertEqual(x, int.from_bytes(bytearray.fromhex("7fffffffffffffffffffffffffffffffffffffffffffffffffffffff7ffffe21"), byteorder='big', signed=False))
         self.assertEqual(y, int.from_bytes(bytearray.fromhex("2af4d53f09f4d4ede3caf3f0e06ccfc0f55289d83fed859ca504d6033bec629b"), byteorder='big', signed=False))
+
 
 class EncodingMessageAsMultiPlaintextTestClass(unittest.TestCase):
     """
@@ -40,17 +42,19 @@ class EncodingMessageAsMultiPlaintextTestClass(unittest.TestCase):
         self.assertEqual(r[8], 7758446)
         self.assertEqual(r[9], 7143424)
 
+
 class DecodingMessageFromMultiPlaintextTestClass(unittest.TestCase):
     """
     unittest.TestCase for algorithm 6
     """
     def test_from_doc(self):
-        multiplaintext = [625,7824754,7633269,6909808,7105386,6842214,6583137,8026211,7758446,7143424]
+        multiplaintext = [625, 7824754, 7633269, 6909808, 7105386, 6842214, 6583137, 8026211, 7758446, 7143424]
         msg = decoding_message_from_multiplaintext(int(math.pow(2, 32)) - 1, multiplaintext)
         self.assertEqual(msg, bytearray("qwertyuioplkjhgfdsazxcvbnm".encode("utf-8")))
-        multiplaintextDash = [625,7824754,7633269,6909808,7105386,6842214,6583137,8026211,7758446,7143425]
+        multiplaintextDash = [625, 7824754, 7633269, 6909808, 7105386, 6842214, 6583137, 8026211, 7758446, 7143425]
         with self.assertRaises(AssertionError):
             msg = decoding_message_from_multiplaintext(int(math.pow(2, 32)) - 1, multiplaintextDash)
+
 
 class DecodingEncodingMessageTestClass(unittest.TestCase):
     """
@@ -60,6 +64,7 @@ class DecodingEncodingMessageTestClass(unittest.TestCase):
         r = encoding_message_as_multiplaintext(int(math.pow(2, 32)) - 1, bytearray("Das ist ein Test".encode("utf-8")))
         msg = decoding_message_from_multiplaintext(int(math.pow(2, 32)) - 1, r)
         self.assertEqual(msg, bytearray("Das ist ein Test".encode("utf-8")))
+
 
 class EllipticCurveDecodingTestClass(unittest.TestCase):
     """
@@ -74,7 +79,7 @@ class EllipticCurveDecodingTestClass(unittest.TestCase):
         x = bytearray.fromhex("7fffffffffffffffffffffffffffffffffffffffffffffffffffffff7ffffe21")
         y = bytearray.fromhex("2af4d53f09f4d4ede3caf3f0e06ccfc0f55289d83fed859ca504d6033bec629b")
 
-        pt = Point(x,y)
+        pt = Point(x, y)
 
         a = elliptic_curve_decoding(pt)
-        self.assertEqual(a,723700557733226221397318656304299424082937404160253525246609900049430216698)
+        self.assertEqual(a, 723700557733226221397318656304299424082937404160253525246609900049430216698)

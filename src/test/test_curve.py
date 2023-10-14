@@ -4,6 +4,7 @@
 import unittest
 from algos.secp256k1 import Point, Curve
 
+
 class secp256k1CompressTestClass(unittest.TestCase):
     """
     unittest.TestCase to test if the compression of points on the elliptic curve work
@@ -15,9 +16,10 @@ class secp256k1CompressTestClass(unittest.TestCase):
         """
         curve = Curve()
         compressed_key = bytearray.fromhex("0275788b8a22a04baad44c66ec80e86928597979bf1b287760ad4e3153293d613b")
-        x = int.from_bytes(bytearray.fromhex("75788b8a22a04baad44c66ec80e86928597979bf1b287760ad4e3153293d613b"),byteorder="big",signed=False)
-        y = int.from_bytes(bytearray.fromhex("664663757d16eff0b993ac12a1ba16ee4784ac08206b12be50f4d954d9d74c88"),byteorder="big",signed=False)
-        self.assertEqual(curve.compress(Point(x,y)), compressed_key)
+        x = int.from_bytes(bytearray.fromhex("75788b8a22a04baad44c66ec80e86928597979bf1b287760ad4e3153293d613b"), byteorder="big", signed=False)
+        y = int.from_bytes(bytearray.fromhex("664663757d16eff0b993ac12a1ba16ee4784ac08206b12be50f4d954d9d74c88"), byteorder="big", signed=False)
+        self.assertEqual(curve.compress(Point(x, y)), compressed_key)
+
 
 class secp256k1DecompressTestClass(unittest.TestCase):
     """
@@ -30,10 +32,11 @@ class secp256k1DecompressTestClass(unittest.TestCase):
         """
         curve = Curve()
         compressed_key = bytearray.fromhex("0275788b8a22a04baad44c66ec80e86928597979bf1b287760ad4e3153293d613b")
-        x = int.from_bytes(bytearray.fromhex("75788b8a22a04baad44c66ec80e86928597979bf1b287760ad4e3153293d613b"),byteorder="big",signed=False)
-        y = int.from_bytes(bytearray.fromhex("664663757d16eff0b993ac12a1ba16ee4784ac08206b12be50f4d954d9d74c88"),byteorder="big",signed=False)
+        x = int.from_bytes(bytearray.fromhex("75788b8a22a04baad44c66ec80e86928597979bf1b287760ad4e3153293d613b"), byteorder="big", signed=False)
+        y = int.from_bytes(bytearray.fromhex("664663757d16eff0b993ac12a1ba16ee4784ac08206b12be50f4d954d9d74c88"), byteorder="big", signed=False)
         self.assertEqual(curve.decompress(compressed_key).x, x)
         self.assertEqual(curve.decompress(compressed_key).y, y)
+
 
 class PointTestClass(unittest.TestCase):
     """
@@ -45,13 +48,13 @@ class PointTestClass(unittest.TestCase):
         :return:
         """
         xH = bytearray.fromhex("75788b8a22a04baad44c66ec80e86928597979bf1b287760ad4e3153293d613b")
-        x = int.from_bytes(xH,byteorder="big",signed=False)
+        x = int.from_bytes(xH, byteorder="big", signed=False)
         yH = bytearray.fromhex("664663757d16eff0b993ac12a1ba16ee4784ac08206b12be50f4d954d9d74c88")
-        y = int.from_bytes(yH,byteorder="big",signed=False)
+        y = int.from_bytes(yH, byteorder="big", signed=False)
 
-        p1 = Point(x,y)
+        p1 = Point(x, y)
         p2 = Point(xH, yH)
-        self.assertEqual(p1,p2)
+        self.assertEqual(p1, p2)
         self.assertTrue(p1.valid())
         self.assertTrue(p2.valid())
 
@@ -60,7 +63,7 @@ class PointTestClass(unittest.TestCase):
 
         :return:
         """
-        p1 = Point(None,None)
+        p1 = Point(None, None)
         self.assertFalse(p1.valid())
 
     def test_compression(self):
@@ -71,8 +74,7 @@ class PointTestClass(unittest.TestCase):
         compressed_key = bytearray.fromhex("0275788b8a22a04baad44c66ec80e86928597979bf1b287760ad4e3153293d613b")
         x = int.from_bytes(bytearray.fromhex("75788b8a22a04baad44c66ec80e86928597979bf1b287760ad4e3153293d613b"), byteorder="big", signed=False)
         y = int.from_bytes(bytearray.fromhex("664663757d16eff0b993ac12a1ba16ee4784ac08206b12be50f4d954d9d74c88"), byteorder="big", signed=False)
-        self.assertEqual(Point(x,y).compress_as_bytearray(), compressed_key)
-
+        self.assertEqual(Point(x, y).compress_as_bytearray(), compressed_key)
 
     def test_valid(self):
         """
@@ -88,6 +90,7 @@ class PointTestClass(unittest.TestCase):
         p2 = curve.decompress(yH)
         self.assertTrue(p1.valid())
         self.assertTrue(p2.valid())
+
 
 if __name__ == '__main__':
     unittest.main()
