@@ -23,3 +23,5 @@ SOFTWARE.
 The above license excepts the content of [TonelliShanks.py](src/algos/TonelliShanks.py) which is taken from
 [https://rosettacode.org/wiki/Tonelli-Shanks_algorithm#Python](https://rosettacode.org/wiki/Tonelli-Shanks_algorithm#Python)
 and is available under GNU Free Documentation License 1.2 unless otherwise noted. No changes were made to this part of the code.
+The license furthermore excepts the content of [polyas3.0-verifiable-1.3.2.pdf](doc/polyas3.0-verifiable-1.3.2.pdf) which is
+copyrighted by [POLYAS](https://www.polyas.com/).
