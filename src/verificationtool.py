@@ -744,8 +744,17 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
             valid = False
             if phase1:
                 phase1.setStyleSheet(redStyle)
+        elif fingerprint and ballotsByFingerprint[fingerprint] is None:
+            logger.info("Multiple receipts for ballot %s found." % fingerprint)
+            if logTo is not None:
+                logTo.append({"status": ReceiptStatus.CLASH, "fingerprint": fingerprint})
+            valid = False
+            if phase1:
+                phase1.setStyleSheet(redStyle)
         elif fingerprint:
             totalConfirmationsFound += 1
+            ballotsByFingerprint[fingerprint] = None
+        
         if log and fingerprint in ballotsByFingerprint:
             status = ballots[ballotsByFingerprint[fingerprint]].status
             logger.info("Ballot %s is included in the ballot box with status %s." % (fingerprint, status))

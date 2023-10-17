@@ -106,6 +106,8 @@ def start_verification():
                     text += "Ballot cast confirmation file %s does not contain a valid signature.\n" % t["file"]
                 elif t["status"] == ReceiptStatus.MISSING:
                     text += "Ballot %s is not included in the ballot box.\n" % t["fingerprint"]
+                elif t["status"] == ReceiptStatus.CLASH:
+                    text += "Multiple receipts found for ballot %s.\n" % t["fingerprint"]
                 elif t["status"] == ReceiptStatus.PRESENT:
                     text += "Ballot %s is included in the ballot box with status %s.\n" % (t["fingerprint"], t["ballotStatus"].name)
             receiptsLogLabel.setText(text)

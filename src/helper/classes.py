@@ -8,7 +8,7 @@ import hashlib
 import math
 from enum import Enum
 
-ReceiptStatus = Enum('ReceiptStatus', ['MALFORMED', 'INVALID', 'MISSING', 'PRESENT'])
+ReceiptStatus = Enum('ReceiptStatus', ['MALFORMED', 'INVALID', 'MISSING', 'PRESENT', 'CLASH'])
 BallotStatus = Enum('BallotStatus', ['OK', 'INCORRECT', 'REVOKED'])
 
 
