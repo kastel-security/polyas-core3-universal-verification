@@ -1,7 +1,11 @@
 # Polyas-Checker
 
-Polyas-Checker is a tool to verify the bulletin boards of the [POLYAS](https://www.polyas.com/) 3.0 E-Voting System for [universal verifiability](https://gi.de/wahlen/verifikation-der-gi-wahlen-tools-gesucht), see also the original [publication](https://publikationen.bibliothek.kit.edu/1000117999).
-The POLYAS 3.0 E-Voting System is used in the [elections for the executive and the managing committee](https://gi.de/wahlen/) of the [German Informatics Society](https://gi.de/) in autumn 2023.
+Polyas-Checker is a tool to verify the bulletin boards of the [POLYAS](https://www.polyas.com/) 3.0 E-Voting System for
+[universal verifiability](https://gi.de/wahlen/verifikation-der-gi-wahlen-tools-gesucht), see also the original
+[publication](https://publikationen.bibliothek.kit.edu/1000117999).
+The POLYAS 3.0 E-Voting System is used in the [elections for the executive and the managing committee](https://gi.de/wahlen/) of the
+[German Informatics Society](https://gi.de/) in autumn 2023, see [polyas3.0-verifiable-1.3.2.pdf](doc/polyas3.0-verifiable-1.3.2.pdf)
+for its system specification.
 
 ## Requirements
 * [python3](https://www.python.org/downloads/)
@@ -54,7 +58,8 @@ python -m unittest discover src
 See [LICENSE](LICENSE)
 
 ## Contributors
-The principal development of this software has been done by [Maximilian Noppel](https://intellisec.de/team/max/) for the 2019 version with major refactorings and extensions for the 2023 version by [Christoph Niederbudde](mailto:udqps@student.kit.edu).
+The principal development of this software has been done by [Maximilian Noppel](https://intellisec.de/team/max/) for the 2019 version with
+major refactorings and extensions for the 2023 version by [Christoph Niederbudde](mailto:udqps@student.kit.edu).
 
 ## Contact
 For more information, please contact [Michael Kirsten](https://formal.kastel.kit.edu/~kirsten/?lang=en).
