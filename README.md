@@ -15,13 +15,13 @@ for its system specification.
 
 ### Setup Environment
 ```bash
-conda env create --name polyas-checker --file environment.yml
+conda env create --name polyas_checker --file environment.yml
 ```
 
 ### Activating Environment
 Before executing the tool or unittests, run the following:
 ```bash
-conda activate polyas-checker
+conda activate polyas_checker
 ```
 
 ## Installation Using [pip](https://pip.pypa.io)

@@ -1,4 +1,4 @@
-name: polyas-checker
+name: polyas_checker
 channels:
   - defaults
   - conda-forge

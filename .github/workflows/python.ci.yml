@@ -13,5 +13,5 @@ testbuild :
     - apt-get install -y build-essential
     - apt-get install -y libgmp3-dev
     - conda env create -f environment.yml
-    - source activate polyas-checker
+    - source activate polyas_checker
     - python -m unittest discover src
