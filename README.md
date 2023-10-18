@@ -15,13 +15,13 @@ for its system specification.
 
 ### Setup Environment
 ```bash
-conda env create --name verificationtool --file environment.yml
+conda env create --name polyas-checker --file environment.yml
 ```
 
 ### Activating Environment
 Before executing the tool or unittests, run the following:
 ```bash
-conda activate verificationtool
+conda activate polyas-checker
 ```
 
 ## Installation Using [pip](https://pip.pypa.io)
@@ -34,7 +34,7 @@ python -m pip install -r requirements.txt
 ## Running Polyas-Checker
 ### In the Command Line
 ```bash
-python src/verificationtool.py [-s | --second-device] [-r | --receipt] [--log] [-l | --language lang] src
+python src/polyas_checker.py [-s | --second-device] [-r | --receipt] [--log] [-l | --language lang] src
 ```
 * ``src``: Absolute path to election files
 * ``-s, --second-device``: Check second device public parameters in file ``src/second-device-public-parameters.json``
@@ -46,7 +46,7 @@ python src/verificationtool.py [-s | --second-device] [-r | --receipt] [--log] [
 Additionally, this repository contains a GUI tool based on [Qt5](https://github.com/qt/qt5).
 
 ```bash
-python src/verificationtoolGUI.py
+python src/polyas_checkerGUI.py
 ```
 The path to the election files as well as all other options are then entered in the GUI.
 

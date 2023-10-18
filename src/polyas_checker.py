@@ -25,7 +25,7 @@ VERSION_PATCH = 0
 VERSION = "v" + str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_PATCH)
 
 
-logger = logging.getLogger("verificationtool.py")
+logger = logging.getLogger("polyas_checker.py")
 logger.setLevel(logging.DEBUG)
 
 ch = logging.StreamHandler()
@@ -154,7 +154,7 @@ def verify_ballot_box(path, progressbar=None):
         bba = ballotBoxFlagged[i]
         if not bba.ballot.__eq__(bb):
             progressbar.setValue(int((i + 1) * 100 / len(ballotBox))) if progressbar is not None else None
-            logger.info("Ballot of voter %s incorrectly transferred from ballot-box to ballot-box-flagged" % bb.voterID)
+            logger.info("The ballot of voter %s is incorrectly transferred from the ballot box to ballot-box-flagged." % bb.voterID)
             return False
         flag = ""
         if not verification_of_a_ballot_entry_extended(registry, bb, pastCredentials, pk):
@@ -165,7 +165,7 @@ def verify_ballot_box(path, progressbar=None):
             flag = BallotStatus.OK
         pastCredentials += [bb.publicCredential]
         if flag != bba.status:
-            logger.info("Ballot of voter %s incorrectly flagged: Expected %s but was %s" % (bb.voterID, flag, bba.status))
+            logger.info("The ballot of voter %s is incorrectly flagged: Expected %s but was %s." % (bb.voterID, flag, bba.status))
             return False
 
         if progressbar is not None:
@@ -242,7 +242,7 @@ def verify_mixing_input(path, progressbar=None):
     inputMixPackets = load_mixing_input_packets(path)
     flaggedBallots = load_ballot_box_flagged(path)
     registry = load_registry(path)
-    # Grouping mix packets by their public label
+    # Grouping mixing packets by their public label
     packetsByLabel = {}  # Position of all packets fwith a given public label in inputMixPackets
     packetCountByLabel = {}  # Position the first packet that has not been fully analysed in the corresponding list in packetsByLabel
     packetPosByLabel = {}  # Position of the first ballot that has not been analysed in the current package
@@ -266,7 +266,7 @@ def verify_mixing_input(path, progressbar=None):
             if len(inputMixPackets[packet].ciphertexts) > registry.packetSize or len(inputMixPackets[packet].ciphertexts) < registry.packetSize / 2:
                 if progressbar is not None:
                     progressbar.setValue(100)
-                logger.info("A packet on board mixing-input-packets for public label %s has an invalid size" % publicLabel)
+                logger.info("A packet on the board mixing-input-packets for public label %s has an invalid size." % publicLabel)
                 return False
 
     # Check that all valid ballots are transferred to the mixing packets
@@ -278,13 +278,13 @@ def verify_mixing_input(path, progressbar=None):
         if label not in packetsByLabel:
             if progressbar is not None:
                 progressbar.setValue(100)
-            logger.info("Board mixing-input-packets misses ballot of voter %s" % expectedBallot.voterID)
+            logger.info("The board mixing-input-packets misses the ballot of voter %s." % expectedBallot.voterID)
             return False
         correspondingPacket = inputMixPackets[packetsByLabel[label][packetCountByLabel[label]]]
         if not expectedBallot.ballot.encryptedChoice.__eq__(correspondingPacket.ciphertexts[packetPosByLabel[label]]):
             if progressbar is not None:
                 progressbar.setValue(100)
-            logger.info("Board mixing-input-packets misses ballot of voter %s" % expectedBallot.voterID)
+            logger.info("The board mixing-input-packets misses the ballot of voter %s." % expectedBallot.voterID)
             return False
         packetPosByLabel[label] += 1
         if packetPosByLabel[label] >= len(correspondingPacket.ciphertexts):
@@ -303,7 +303,7 @@ def verify_mixing_input(path, progressbar=None):
     if len(packetsByLabel) > 0:
         if progressbar is not None:
             progressbar.setValue(100)
-        logger.info("Board mixing-input-packets contains additional ballots")
+        logger.info("The board mixing-input-packets contains additional ballots.")
         return False
     return True
 
@@ -318,7 +318,7 @@ def verify_shuffle(path, progressbar=None):
     if len(mixPackets) != len(inputMixPackets):
         if progressbar is not None:
             progressbar.setValue(100)
-        logger.info("Number of packets before and after mixing are not equal")
+        logger.info("The number of the packets before and after the mixing differ.")
         return False
 
     for i in range(len(mixPackets)):
@@ -376,14 +376,14 @@ def verify_ballot_decryption(path, progressbar=None):
     if (len(messages) != len(mixMixingPackets)):
         if progressbar is not None:
             progressbar.setValue(100)
-        logger.info("Number of decrypted packets is not equal to number of mixed packets")
+        logger.info("The number of the decrypted packets differs from the number of mixing packets.")
         return False
 
     for i in range(len(messages)):
         if (len(messages[i].messagesWithZKP) != len(mixMixingPackets[i].ciphertexts)):
             if progressbar is not None:
                 progressbar.setValue(100)
-            logger.info("Number of decrypted messages in a packet is not equal to number of encrypted messages in corresponding mixing packet")
+            logger.info("The number of decrypted messages in a packet differs from the number of encrypted messages in the corresponding mixing packet.")
             return False
         for j in range(len(mixMixingPackets[i].ciphertexts)):
             messagesWithZKP = messages[i].messagesWithZKP[j]
@@ -597,7 +597,7 @@ def verify_second_device_public_parameters(path, phase1=None):
     logger.info("----------------------------------------------------------")
     logger.info("VERIFYING")
     logger.info("----------------------------------------------------------")
-    logger.info("Verifying second device public parameters...")
+    logger.info("Verifying the second device public parameters...")
     parametersJSON = {}
     fingerprint = ""
     try:
@@ -609,13 +609,13 @@ def verify_second_device_public_parameters(path, phase1=None):
         if phase1:
             phase1.setValue(100)
             phase1.setStyleSheet(redStyle)
-        logger.info("Second device public parameters are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
+        logger.info("The second device public parameters are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
         return False
     parameterBytes = build_bytearray_by_type(json.dumps(parametersJSON))
     fingerprintRecalc = hashlib.sha256(parameterBytes).hexdigest()
     registryJSON = loadSecureJSON(path, "registry.json")
     if fingerprint != fingerprintRecalc:
-        logger.info("Fingerprint of second device public parameters is invalid.")
+        logger.info("The fingerprint of the second device public parameters is invalid.")
         if phase1:
             phase1.setStyleSheet(redStyle)
         accepted = False
@@ -630,11 +630,11 @@ def verify_second_device_public_parameters(path, phase1=None):
         if phase1:
             phase1.setValue(100)
             phase1.setStyleSheet(redStyle)
-        logger.info("Second device public parameters are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
+        logger.info("The second device public parameters are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
         return False
 
     if parametersJSON["publicKey"] != keygen.publicKey.hex():
-        logger.info("Public key of second device public parameters is invalid.")
+        logger.info("The public key of the second device public parameters is invalid.")
         if phase1:
             phase1.setStyleSheet(redStyle)
         accepted = False
@@ -642,7 +642,7 @@ def verify_second_device_public_parameters(path, phase1=None):
         phase1.setValue(50)
 
     if parametersJSON["verificationKey"] != verificationKey:
-        logger.info("VerificationKey of second device public parameters is invalid.")
+        logger.info("The verification key of the second device public parameters is invalid.")
         if phase1:
             phase1.setStyleSheet(redStyle)
         accepted = False
@@ -650,7 +650,7 @@ def verify_second_device_public_parameters(path, phase1=None):
         phase1.setValue(75)
 
     if parametersJSON["ballots"] != registryJSON["ballotStructures"]:
-        logger.info("Ballots of second device public parameters are invalid.")
+        logger.info("The ballots of the second device public parameters are invalid.")
         if phase1:
             phase1.setStyleSheet(redStyle)
         accepted = False
@@ -659,9 +659,9 @@ def verify_second_device_public_parameters(path, phase1=None):
 
     logger.info("----------------------------------------------------------")
     if accepted:
-        logger.info("Second device public parameters are: [\033[1;32m   ACCEPTED   \033[0;0m]")
+        logger.info("The second device public parameters are: [\033[1;32m   ACCEPTED   \033[0;0m]")
     else:
-        logger.info("Second device public parameters are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
+        logger.info("The second device public parameters are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
     logger.info("")
     return accepted
 
@@ -689,12 +689,12 @@ def get_signature_if_valid(receiptPath: str, file: str, key: str, logTo=None):
 
     signList = re.findall(r".*BEGIN SIGNATURE----- ?(.*) ?-----END SIGNATURE.*", receipt)
     if len(fingerprintList) != 1 or len(signList) != 1:
-        logger.info("Ballot cast confirmation file %s does not have the correct format." % file)
+        logger.info("The ballot cast confirmation file %s does not have the correct format." % file)
         if logTo:
             logTo.append({"status": ReceiptStatus.MALFORMED, "file": file})
         return None
     if not verify_signature_rsa(fingerprintList[0], signList[0], key):
-        logger.info("Ballot cast confirmation file %s does not contain a valid signature." % file)
+        logger.info("The ballot cast confirmation file %s does not contain a valid signature." % file)
         if logTo:
             logTo.append({"status": ReceiptStatus.INVALID, "file": file})
         return None
@@ -714,7 +714,7 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
         if phase1:
             phase1.setValue(100)
             phase1.setStyleSheet(redStyle)
-        logger.info("Ballot cast confirmations are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
+        logger.info("The ballot cast confirmations are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
         return False
 
     if not os.path.exists(receiptPath):
@@ -722,7 +722,7 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
         if phase1:
             phase1.setValue(100)
             phase1.setStyleSheet(redStyle)
-        logger.info("Ballot cast confirmations are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
+        logger.info("The ballot cast confirmations are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
         return False
 
     if phase1:
@@ -738,7 +738,7 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
     for t in range(len(files)):
         fingerprint = get_signature_if_valid(receiptPath, files[t], verificationKey, logTo)
         if fingerprint and fingerprint not in ballotsByFingerprint:
-            logger.info("Ballot %s is not included in the ballot box." % fingerprint)
+            logger.info("The ballot %s is not included in the ballot box." % fingerprint)
             if logTo is not None:
                 logTo.append({"status": ReceiptStatus.MISSING, "fingerprint": fingerprint})
             valid = False
@@ -757,7 +757,7 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
 
         if log and fingerprint in ballotsByFingerprint:
             status = ballots[ballotsByFingerprint[fingerprint]].status
-            logger.info("Ballot %s is included in the ballot box with status %s." % (fingerprint, status))
+            logger.info("The ballot %s is included in the ballot box with status %s." % (fingerprint, status))
             if logTo is not None:
                 logTo.append({"status": ReceiptStatus.PRESENT, "fingerprint": fingerprint, "ballotStatus": status})
         if phase1:
@@ -768,9 +768,9 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
 
     logger.info("----------------------------------------------------------")
     if valid:
-        logger.info("Ballot cast confirmations are: [\033[1;32m   ACCEPTED   \033[0;0m]")
+        logger.info("The ballot cast confirmations are: [\033[1;32m   ACCEPTED   \033[0;0m]")
     else:
-        logger.info("Ballot cast confirmations are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
+        logger.info("The ballot cast confirmations are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
         if phase1:
             phase1.setStyleSheet(redStyle)
     logger.info("")
@@ -796,7 +796,7 @@ def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=N
     logger.info("----------------------------------------------------------")
     logger.info("VERIFYING")
     logger.info("----------------------------------------------------------")
-    logger.info("Verifying the public election key with zk-proof...")
+    logger.info("Verifying the public election key with zero-knowledge proof...")
     if verify_public_election_key(path, phase1) is not True:
         printFailed()
         accepted = False
@@ -807,7 +807,7 @@ def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=N
         if phase1:
             phase1.setStyleSheet(greenStyle)
 
-    logger.info("Verifying ballot-box...")
+    logger.info("Verifying ballot box...")
     if verify_ballot_box(path, phase2) is not True:
         printFailed()
         accepted = False
@@ -829,7 +829,7 @@ def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=N
         if phase3:
             phase3.setStyleSheet(greenStyle)
 
-    logger.info("Verifying mix packets...")
+    logger.info("Verifying mixing packets...")
     if verify_mixing_input(path, phase4) is not True:
         printFailed()
         accepted = False
@@ -864,19 +864,19 @@ def verification(path, accepted, phase1=None, phase2=None, phase3=None, phase4=N
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
-        prog='verificationtool.py',
-        description='Program to verify the election results of a polyas election',
+        prog='polyas_checker.py',
+        description='Program to check the election results (universal verification) of a polyas election',
         epilog='')
 
     parser.add_argument('path', type=str, help='The absolute path to the polyas verification files.')
-    parser.add_argument('-s', '--second-device', action='store_true', dest='sdpp', help='Verificationtool will verify second device public parameters.')
-    parser.add_argument('-r', '--receipts', action='store_true', dest='rec', help='Verificationtool will check ballot cast confirmations in folder \receipts\'.')
-    parser.add_argument('--log', action='store_true', dest='list', help='Verificationtool will log additional information for ballot cast confirmations.')
+    parser.add_argument('-s', '--second-device', action='store_true', dest='sdpp', help='Polyas-Checker will verify second device public parameters.')
+    parser.add_argument('-r', '--receipts', action='store_true', dest='rec', help='Polyas-Checker will check ballot cast confirmations in folder \receipts\'.')
+    parser.add_argument('--log', action='store_true', dest='list', help='Polyas-Checker will log additional information for ballot cast confirmations.')
     parser.add_argument('-l', '--language', type=str, help="Set preferred language")
     args = parser.parse_args()
 
     logger.info("\033[0;0m")
-    logger.info("VerificationTool")
+    logger.info("Polyas-Checker")
     logger.info("Running version " + VERSION)
 
     accepted = True
