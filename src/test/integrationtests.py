@@ -7,7 +7,7 @@ import logging
 import json
 from parameterized import parameterized
 from app.helper.classes import BallotBoxEntry
-from app.polyas-checker import verify_ballot_box, verify_mixing_input, get_signature_if_valid, initialize_gpg
+from app.polyas_checker import verify_ballot_box, verify_mixing_input, get_signature_if_valid, initialize_gpg
 from app.helper.secureJSON import loadSecureJSON
 
 logger = logging.getLogger()
