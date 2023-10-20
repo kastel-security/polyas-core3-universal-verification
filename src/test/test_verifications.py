@@ -114,6 +114,26 @@ class VerificationOfABallotEntryTestClass(unittest.TestCase):
 
         self.assertEqual(True, verification_of_a_ballot_entry(pk, "a", z, encrypted_choices, private_credentials, encrypted_coins))
 
+    """
+    unittest.TestCase of the verification of a ballot entry
+    """
+    def test_from_doc_invalid(self):
+        pk = bytearray.fromhex("0323863C357CF3CDFF282CB747CB23F94CCC9173B795412E773F908CC8B81AA354")
+        z = bytearray.fromhex("03D0D99E7CB4330B6037CFC64139298DD46417D1B44781A0381CB0313F26541870")
+        private_credentials = (71296294066727390017142573272499110353651332475311228044572225570162122199458, 93740793070444965834350731700811288291897877020039084234269069666765422852427)
+        encrypted_coins = [
+            (55667612424127479016959768115758309554487545206887638059563287587298269617180, 76750441957428754273366458063623429821774646529073833195390073367592941723801),
+            (55667612424127479016959768115758309554487545206887638059563287587298269617180, 76750441957428754273366458063623429821774646529073833195390073367592941723801)
+        ]
+        encrypted_choices = [
+            (bytearray.fromhex("0296EA334615B205F2B75AED751586FBFBFF794B4F96780146E55A11D3ED5447BF"),
+                bytearray.fromhex("0237A9A3B7738311C6F36D954A8CAB89A697FD8AEF38676D732EC44FB978269F26")),
+            (bytearray.fromhex("029701753C446CCAF47A37D6AC28107AB026DD914D77989D36CF0F9319D161297F"),
+                bytearray.fromhex("03793ED5EE4A3CD89BD74C4AE44E88614845B72702FCA623F54EEDE5821F7F453C"))
+        ]
+
+        self.assertEqual(False, verification_of_a_ballot_entry(pk, "a", z, encrypted_choices, private_credentials, encrypted_coins))
+
 
 class VerificationOfAZKProofOfShuffleTestClass(unittest.TestCase):
     """
