@@ -4,8 +4,8 @@
 
 from PyQt5.QtWidgets import QTableWidgetItem, QFileDialog, QApplication, QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QGroupBox
 from PyQt5.QtWidgets import QCheckBox, QProgressBar, QTableWidget, QGridLayout, QScrollArea
-from verificationtool import checking_files, load_registry, do_tallying, print_registry, get_tallying_result_cmdline, logger, verification
-from verificationtool import verify_second_device_public_parameters, verify_receipts, ReceiptStatus, greenStyle
+from polyas_checker import checking_files, load_registry, do_tallying, print_registry, get_tallying_result_cmdline, logger, verification
+from polyas_checker import verify_second_device_public_parameters, verify_receipts, ReceiptStatus, greenStyle
 import sys
 
 headerStyle = """
@@ -216,25 +216,25 @@ progressLayout = QVBoxLayout()
 progressWidget.setLayout(progressLayout)
 
 # Phase 1
-phase1Label = QLabel("Verifying the public election key with zk-proof")
+phase1Label = QLabel("Verifying the public election key with the zero-knowledge proof")
 progressLayout.addWidget(phase1Label)
 phase1 = QProgressBar()
 progressLayout.addWidget(phase1)
 
 # Phase 2
-phase2Label = QLabel("Verifying ballot-box")
+phase2Label = QLabel("Verifying the ballot box")
 progressLayout.addWidget(phase2Label)
 phase2 = QProgressBar()
 progressLayout.addWidget(phase2)
 
 # Phase 3
-phase3Label = QLabel("Verifying ballot decryption")
+phase3Label = QLabel("Verifying the ballot decryption(s)")
 progressLayout.addWidget(phase3Label)
 phase3 = QProgressBar()
 progressLayout.addWidget(phase3)
 
 # Phase 4
-phase4Label = QLabel("Verifying shuffle")
+phase4Label = QLabel("Verifying the shuffle(s)")
 progressLayout.addWidget(phase4Label)
 phase4 = QProgressBar()
 progressLayout.addWidget(phase4)
@@ -271,18 +271,18 @@ headerLabel.setStyleSheet(headerStyle)
 resLabel.setStyleSheet(resStyle)
 receiptsLogLabel.setStyleSheet(logStyle)
 
-btStartVerification = QPushButton('Start verification')
+btStartVerification = QPushButton('Start universal verification')
 btStartVerification.clicked.connect(start_verification)
 layout.addWidget(btStartVerification)
 
-resetButton = QPushButton('New verification')
+resetButton = QPushButton('New universal verification')
 resetButton.clicked.connect(reset)
 resetButton.setVisible(False)
 layout.addWidget(resetButton)
 
 
 window.setLayout(layout)
-window.setWindowTitle('Verification of election result')
+window.setWindowTitle('Polyas-Checker')
 window.setFixedSize(800, 800)
 window.show()
 

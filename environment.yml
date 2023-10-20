@@ -1,4 +1,4 @@
-name: verificationtool
+name: polyas_checker
 channels:
   - defaults
   - conda-forge
