@@ -299,17 +299,36 @@ def verification_of_a_ballot_entry(pk: bytearray, l: str, z: bytearray, encrypte
     # Check if pk is valid
     assert secp256k1.decompress(pk).valid()
 
-    z_point = secp256k1.decompress(z)
-    assert z_point.valid()
+    if verification_of_proof(pk, l, z, encrypted_choices, private_credentials, z) is False:
+        return False
+    
+    for t in range(0, len(encrypted_choices)):
+        if verification_of_proof(pk, l, z, encrypted_choices, encrypted_coins[t], encrypted_choices[t][0]) is False:
+            return False
 
-    (c, f) = private_credentials
+    return True
 
-    div = secp256k1.g.mul(f).add(z_point.mul(c).inv())
+def verification_of_proof(pk: bytearray, l: str, z: bytearray, encrypted_choices: typing.List, proof: tuple, verify: bytearray):
+    """
+    Verifies a Zero-Knowledge-Proof
+    :param pk:              bytearray PublicKey-ECC-Point (compressed)
+    :param l:               str
+    :param z:               bytearray
+    :param choices:         List
+    :param verify:          bytearray public information for the value to be verified
+    :return:                bool. True if the BallotEntry is verified correct
+    """
+    secp256k1 = Curve()
+    (c, f) = proof
+    print(verify.hex())
+    verify_point = secp256k1.decompress(verify)
+    assert verify_point.valid()
+    div = secp256k1.g.mul(f).add(verify_point.mul(c).inv())
     assert div.valid()
-
     encryp = []
     for e in encrypted_choices:
         (x, y) = e
+        print(x.hex(), y.hex())
         assert secp256k1.decompress(x).valid()
         assert secp256k1.decompress(y).valid()
         encryp.append(x)
