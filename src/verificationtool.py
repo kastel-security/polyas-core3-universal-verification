@@ -601,18 +601,18 @@ def verify_second_device_public_parameters(path, phase1=None):
     parametersJSON = {}
     fingerprint = ""
     try:
-        parametersWithFingerprintJSON = loadSecureJSON(path, "second-device-public-parameters.json", sequence=False)
+        parametersWithFingerprintJSON = loadSecureJSON(path, "secondDeviceParametersFingerprint.json", sequence=False, plain = True)
         parametersJSON = json.loads(parametersWithFingerprintJSON["publicParametersJson"])
         fingerprint = parametersWithFingerprintJSON["fingerprint"]
     except Exception:
-        logger.info("No file with second device public parameters found: second-device-public-parameters.json")
+        logger.info("No file with second device public parameters found: secondDeviceParametersFingerprint.json")
         if phase1:
             phase1.setValue(100)
             phase1.setStyleSheet(redStyle)
         logger.info("Second device public parameters are: [\033[1;31m NOT ACCEPTED \033[0;0m]")
         return False
-    parameterBytes = build_bytearray_by_type(json.dumps(parametersJSON))
-    fingerprintRecalc = hashlib.sha256(parameterBytes).hexdigest()
+    parameterBytes = build_bytearray_by_type(parametersWithFingerprintJSON["publicParametersJson"])
+    fingerprintRecalc = hashlib.sha512(parameterBytes).hexdigest()
     registryJSON = loadSecureJSON(path, "registry.json", sequence=False)
     if fingerprint != fingerprintRecalc:
         logger.info("Fingerprint of second device public parameters is invalid.")

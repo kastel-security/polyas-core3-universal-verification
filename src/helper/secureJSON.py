@@ -7,8 +7,8 @@ import json
 import os
 
 
-def loadSecureJSON(path, filename, sequence = True, plain = True):
-    with open(os.path.join(path, filename)) as filestr:
+def loadSecureJSON(path, filename, sequence = True, plain = False):
+    with open(os.path.join(path, filename), 'rb') as filestr:
         if plain:
             return json.loads(filestr.read())
         else:
