@@ -601,7 +601,7 @@ def verify_second_device_public_parameters(path, phase1=None):
     parametersJSON = {}
     fingerprint = ""
     try:
-        parametersWithFingerprintJSON = loadSecureJSON(path, "secondDeviceParametersFingerprint.json", sequence=False, plain = True)
+        parametersWithFingerprintJSON = loadSecureJSON(path, "secondDeviceParametersFingerprint.json", sequence=False, plain=True)
         parametersJSON = json.loads(parametersWithFingerprintJSON["publicParametersJson"])
         fingerprint = parametersWithFingerprintJSON["fingerprint"]
     except Exception:
@@ -752,14 +752,13 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
             if phase1:
                 phase1.setStyleSheet(redStyle)
         elif fingerprint:
-            totalConfirmationsFound += 1
-            ballotsByFingerprint[fingerprint] = None
-
-        if log and fingerprint in ballotsByFingerprint:
             status = ballots[ballotsByFingerprint[fingerprint]].status
             logger.info("The ballot %s is included in the ballot box with status %s." % (fingerprint, status))
             if logTo is not None:
                 logTo.append({"status": ReceiptStatus.PRESENT, "fingerprint": fingerprint, "ballotStatus": status})
+            totalConfirmationsFound += 1
+            ballotsByFingerprint[fingerprint] = None
+
         if phase1:
             phase1.setValue(50 + math.ceil(50 / len(files) * (t + 1)))
     close_gpg()
