@@ -300,12 +300,13 @@ def verification_of_a_ballot_entry(pk: bytearray, l: str, z: bytearray, encrypte
 
     if verification_of_proof(pk, l, z, encrypted_choices, private_credentials, z) is False:
         return False
-    
+
     for t in range(0, len(encrypted_choices)):
         if verification_of_proof(pk, l, z, encrypted_choices, encrypted_coins[t], encrypted_choices[t][0]) is False:
             return False
 
     return True
+
 
 def verification_of_proof(pk: bytearray, l: str, z: bytearray, encrypted_choices: typing.List, proof: tuple, verify: bytearray):
     """
