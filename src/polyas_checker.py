@@ -3,7 +3,7 @@
 # Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel, Christoph Niederbudde
 
 import logging
-import PyPDF2
+import pypdf
 import argparse
 import hashlib
 import json
@@ -624,9 +624,9 @@ def verify_second_device_public_parameters(path, phase1=None):
     keygen = load_key_gen_election_key(path)
     verificationKey = ""
     try:
-        verificationKey = loadSecureJSON(path, "bbox-ballotbox-key-cp.json", sequence=False)
+        verificationKey = loadSecureJSON(path, "BBox-ballotbox-key-CP.json", sequence=False)
     except Exception:
-        logger.info("No file with verification key found: bbox-ballotbox-key-cp.json")
+        logger.info("No file with verification key found: BBox-ballotbox-key-CP.json")
         if phase1:
             phase1.setValue(100)
             phase1.setStyleSheet(redStyle)
@@ -682,7 +682,7 @@ def get_signature_if_valid(receiptPath: str, file: str, key: str, logTo=None):
     Returns fingerprint if the file is valid, else None
     """
     f = open(os.path.join(receiptPath, file), 'rb')
-    reader = PyPDF2.PdfReader(f)
+    reader = pypdf.PdfReader(f)
     receipt = reader.pages[0].extract_text().replace("\n", "")
     f.close()
     fingerprintList = re.findall(r".*BEGIN FINGERPRINT----- ?([0-9|a-f]*) ?-----END FINGERPRINT.*", receipt)
@@ -706,11 +706,11 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
     verificationKey = None
     receiptPath = os.path.join(path, "receipts")
     try:
-        verificationKey = loadSecureJSON(path, "bbox-ballotbox-key-cp.json", sequence=False)
+        verificationKey = loadSecureJSON(path, "BBox-ballotbox-key-CP.json", sequence=False)
         if phase1:
             phase1.setValue(25)
     except Exception:
-        logger.info("No file with verification key found: bbox-ballotbox-key-cp.json")
+        logger.info("No file with verification key found: BBox-ballotbox-key-CP.json")
         if phase1:
             phase1.setValue(100)
             phase1.setStyleSheet(redStyle)

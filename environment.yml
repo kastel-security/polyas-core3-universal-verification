@@ -10,6 +10,6 @@ dependencies:
     - gmpy2
     - pyqt5
     - python-gnupg
-    - PyPDF2
+    - pypdf
     - argparse
 

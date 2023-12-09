@@ -101,13 +101,13 @@ class ReceiptTestClass(unittest.TestCase):
 
     def testValidReceipt(self):
         path = "../data/full_doc_ext"
-        key = loadSecureJSON(path, "bbox-ballotbox-key-cp.json")
+        key = loadSecureJSON(path, "BBox-ballotbox-key-CP.json")
         gpg = initialize_gpg([key])
         self.assertNotEqual(get_signature_if_valid(path + "/receipts", "b1.pdf", gpg, key), None)
 
     def testInvalidReceipt(self):
         path = "../data/full_doc_ext"
-        key = loadSecureJSON(path, "bbox-ballotbox-key-cp.json")
+        key = loadSecureJSON(path, "BBox-ballotbox-key-CP.json")
         gpg = initialize_gpg([key])
         self.assertEqual(get_signature_if_valid(path + "/receipts", "b2.pdf", gpg, key), None)
 
