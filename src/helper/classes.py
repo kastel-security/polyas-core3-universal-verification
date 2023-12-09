@@ -14,7 +14,7 @@ BallotStatus = Enum('BallotStatus', ['OK', 'INCORRECT', 'REVOKED'])
 
 class AnnotatedBallot():
     def __init__(self, annotatedJSON):
-        if type(annotatedJSON) == str:
+        if isinstance(annotatedJSON, str):
             self.status = "REVOKED"
         else:
             self.ballot = BallotBoxEntry(annotatedJSON["ballot"])
