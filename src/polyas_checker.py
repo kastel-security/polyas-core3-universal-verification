@@ -682,23 +682,26 @@ def get_signature_if_valid(receiptPath: str, file: str, key: str, logTo=None):
     Returns fingerprint if the file is valid, else None
     """
     f = open(os.path.join(receiptPath, file), 'rb')
-    reader = pypdf.PdfReader(f)
-    receipt = reader.pages[0].extract_text().replace("\n", "")
-    f.close()
-    fingerprintList = re.findall(r".*BEGIN FINGERPRINT----- ?([0-9|a-f]*) ?-----END FINGERPRINT.*", receipt)
+    try:
+        reader = pypdf.PdfReader(f)
+        receipt = reader.pages[0].extract_text().replace("\n", "")
+        f.close()
+        fingerprintList = re.findall(r".*BEGIN FINGERPRINT----- ?([0-9|a-f]*) ?-----END FINGERPRINT.*", receipt)
 
-    signList = re.findall(r".*BEGIN SIGNATURE----- ?(.*) ?-----END SIGNATURE.*", receipt)
-    if len(fingerprintList) != 1 or len(signList) != 1:
-        logger.info("The ballot cast confirmation file %s does not have the correct format." % file)
-        if logTo:
-            logTo.append({"status": ReceiptStatus.MALFORMED, "file": file})
+        signList = re.findall(r".*BEGIN SIGNATURE----- ?(.*) ?-----END SIGNATURE.*", receipt)
+        if len(fingerprintList) != 1 or len(signList) != 1:
+            logger.info("The ballot cast confirmation file %s does not have the correct format." % file)
+            if logTo:
+                logTo.append({"status": ReceiptStatus.MALFORMED, "file": file})
+            return None
+        if not verify_signature_rsa(fingerprintList[0], signList[0], key):
+            logger.info("The ballot cast confirmation file %s does not contain a valid signature." % file)
+            if logTo:
+                logTo.append({"status": ReceiptStatus.INVALID, "file": file})
+            return None
+        return fingerprintList[0]
+    except pypdf.errors.PyPdfError:
         return None
-    if not verify_signature_rsa(fingerprintList[0], signList[0], key):
-        logger.info("The ballot cast confirmation file %s does not contain a valid signature." % file)
-        if logTo:
-            logTo.append({"status": ReceiptStatus.INVALID, "file": file})
-        return None
-    return fingerprintList[0]
 
 
 def verify_receipts(path, phase1=None, log=False, logTo=None):
@@ -753,7 +756,7 @@ def verify_receipts(path, phase1=None, log=False, logTo=None):
                 phase1.setStyleSheet(redStyle)
         elif fingerprint:
             status = ballots[ballotsByFingerprint[fingerprint]].status
-            logger.info("The ballot %s is included in the ballot box with status %s." % (fingerprint, status))
+            logger.info("The ballot %s is included in the ballot box with status %s." % (fingerprint, status.name))
             if logTo is not None:
                 logTo.append({"status": ReceiptStatus.PRESENT, "fingerprint": fingerprint, "ballotStatus": status})
             totalConfirmationsFound += 1
