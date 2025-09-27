@@ -1,6 +1,6 @@
 #!/bin/python
 
-# Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Christoph Niederbudde
+# Copyright © 2019-2025, KASTEL Security Research Labs, Christoph Niederbudde, Michael Kirsten
 import unittest
 import sys
 import logging

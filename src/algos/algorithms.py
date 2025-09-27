@@ -1,5 +1,5 @@
 #!/bin/python
-# Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel, Christoph Niederbudde
+# Copyright © 2019-2025, KASTEL Security Research Labs, Maximilian Noppel, Christoph Niederbudde, Michael Kirsten
 
 """
 Module providing basic algorithms for polyas universal verification defined in second-device-spec-1.0.pdf

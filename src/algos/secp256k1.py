@@ -1,6 +1,6 @@
 #!/bin/python
 
-# Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel
+# Copyright © 2019-2025, KASTEL Security Research Labs, Maximilian Noppel, Christoph Niederbudde, Michael Kirsten
 
 """
 Module for working with secp256k1 Curve

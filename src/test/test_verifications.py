@@ -1,6 +1,6 @@
 #!/bin/python
 
-# Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel, Christoph Niederbudde
+# Copyright © 2019-2025, KASTEL Security Research Labs, Maximilian Noppel, Christoph Niederbudde, Michael Kirsten
 import unittest
 from algos.verifications import initialize_gpg, verify_signature_gpg, close_gpg, verification_of_the_public_election_key_with_zk_proof, verification_of_a_ballot_entry, verify_signature_rsa
 from algos.verifications import verification_of_a_zk_proof_of_shuffle, independent_generators_for_ec_groups_of_prime_order, verification_of_ballot_decrytion, decoding_of_a_decrypted_ballot

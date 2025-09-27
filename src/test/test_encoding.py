@@ -1,6 +1,6 @@
 #!/bin/python
 
-# Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel, Christoph Niederbudde
+# Copyright © 2019-2025, KASTEL Security Research Labs, Maximilian Noppel, Christoph Niederbudde, Michael Kirsten
 import unittest
 from algos.ellipticCurveEncodingDecoding import elliptic_curve_encoding, elliptic_curve_decoding
 from algos.encodingDecodingOfMultiplaintext import encoding_message_as_multiplaintext, decoding_message_from_multiplaintext

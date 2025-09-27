@@ -1,6 +1,6 @@
 #!/bin/python
 
-# Copyright © 2019-2023, Karlsruhe Institute of Technology (KIT), Maximilian Noppel, Christoph Niederbudde
+# Copyright © 2019-2025, KASTEL Security Research Labs, Maximilian Noppel, Christoph Niederbudde, Michael Kirsten
 import unittest
 from algos.algorithms import numbers_from_seed, kdf, numbers_from_seed_range, build_bytearray_by_type, uniform_hash, revocation_token_fingerprint, independent_generators_for_ec_groups_of_prime_order
 from algos.secp256k1 import Point, Curve, secp256k1_q

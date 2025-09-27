@@ -4,7 +4,7 @@ Polyas-Checker is a tool to verify the bulletin boards of the [POLYAS](https://w
 [universal verifiability](https://gi.de/wahlen/verifikation-der-gi-wahlen-tools-gesucht), see also the original
 [publication](https://publikationen.bibliothek.kit.edu/1000117999).
 The POLYAS 3.0 E-Voting System is used in the [elections for the executive and the managing committee](https://gi.de/wahlen/) of the
-[German Informatics Society](https://gi.de/) in autumn 2023, see [polyas3.0-verifiable-1.3.2.pdf](doc/polyas3.0-verifiable-1.3.2.pdf)
+[German Informatics Society](https://gi.de/) in autumn 2025, see [polyas3.0-verifiable-1.3.2.pdf](doc/polyas3.0-verifiable-1.3.2.pdf)
 for its system specification.
 
 ## Requirements
@@ -28,6 +28,7 @@ conda activate polyas_checker
 
 ### Dependencies
 ```bash
+source polyas_checker/bin/activate
 python -m pip install -r requirements.txt
 ```
 
@@ -59,7 +60,7 @@ See [LICENSE](LICENSE)
 
 ## Contributors
 The principal development of this software has been done by [Maximilian Noppel](https://intellisec.de/team/max/) for the 2019 version with
-major refactorings and extensions for the 2023 version by [Christoph Niederbudde](mailto:udqps@student.kit.edu).
+major refactorings and extensions for the version since 2023 by [Christoph Niederbudde](mailto:udqps@student.kit.edu).
 
 ## Contact
-For more information, please contact [Michael Kirsten](https://formal.kastel.kit.edu/~kirsten/?lang=en).
+For more information, please contact [Michael Kirsten](https://www.tcs.ifi.lmu.de/mitarbeiter/michael-kirsten_de.html).
